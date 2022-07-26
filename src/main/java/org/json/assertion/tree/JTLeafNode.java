@@ -1,6 +1,6 @@
 package org.json.assertion.tree;
 
-import org.antlr.v4.runtime.tree.TerminalNode;
+import org.json.assertion.DataType;
 
 public class JTLeafNode extends JTNode {
 
