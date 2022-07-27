@@ -1,4 +1,4 @@
-package org.json.assertion.tree;
+package org.json.assertion.tree.nodes;
 
 import lombok.NoArgsConstructor;
 

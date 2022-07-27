@@ -1,7 +1,6 @@
-package org.json.assertion.tree;
+package org.json.assertion.tree.nodes;
 
-import org.antlr.v4.runtime.tree.TerminalNode;
-import org.json.assertion.DataType;
+import org.json.assertion.tree.DataType;
 
 public class JTFloat extends JTDataNode {
 

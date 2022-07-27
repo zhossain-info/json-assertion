@@ -1,11 +1,12 @@
 package org.json.assertion;
 
-import org.json.assertion.tree.JTDataNode;
-import org.json.assertion.tree.JTDataType;
-import org.json.assertion.tree.JTNode;
-import org.json.assertion.tree.JTRoot;
-import org.json.assertion.walker.JsonInputWalker;
-import org.json.assertion.walker.JsonSchemaWalker;
+import org.json.assertion.tree.DataType;
+import org.json.assertion.tree.nodes.JTDataNode;
+import org.json.assertion.tree.nodes.JTDataType;
+import org.json.assertion.tree.nodes.JTNode;
+import org.json.assertion.tree.nodes.JTRoot;
+import org.json.assertion.tree.JsonInputTree;
+import org.json.assertion.tree.JsonSchemaTree;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -15,16 +16,16 @@ import java.util.Iterator;
 
 public class Application {
     public static void main(String[] args) throws URISyntaxException, IOException {
-        JsonInputWalker inputWalker = new JsonInputWalker();
-        JsonSchemaWalker schemaWalker = new JsonSchemaWalker();
+        JsonInputTree inputTree = new JsonInputTree();
+        JsonSchemaTree schemaTree = new JsonSchemaTree();
 
-        String json = Files.readString(Paths.get(inputWalker.getClass()
+        String json = Files.readString(Paths.get(inputTree.getClass()
                 .getResource("/input.json").toURI()));
-        String schema = Files.readString(Paths.get(inputWalker.getClass()
+        String schema = Files.readString(Paths.get(inputTree.getClass()
                 .getResource("/schema.scm").toURI()));
 
-        JTRoot inputRoot = inputWalker.walk(json);
-        JTRoot schemaRoot = schemaWalker.walk(schema);
+        JTRoot inputRoot = inputTree.getRoot(json);
+        JTRoot schemaRoot = schemaTree.getRoot(schema);
         System.out.println("\nJson Schema and Input Tree:");
         traverseSchema(schemaRoot, inputRoot);
     }

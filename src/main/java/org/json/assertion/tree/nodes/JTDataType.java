@@ -1,8 +1,6 @@
-package org.json.assertion.tree;
+package org.json.assertion.tree.nodes;
 
-import org.json.assertion.DataType;
-
-import java.util.Locale;
+import org.json.assertion.tree.DataType;
 
 public class JTDataType extends JTLeafNode {
 

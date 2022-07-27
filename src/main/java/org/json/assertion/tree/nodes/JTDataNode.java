@@ -1,6 +1,6 @@
-package org.json.assertion.tree;
+package org.json.assertion.tree.nodes;
 
-import org.json.assertion.DataType;
+import org.json.assertion.tree.DataType;
 
 public class JTDataNode extends JTLeafNode {
 

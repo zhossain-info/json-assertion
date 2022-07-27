@@ -1,6 +1,4 @@
-package org.json.assertion.tree;
-
-import lombok.Data;
+package org.json.assertion.tree.nodes;
 
 public class JTKeyValue extends JTNode {
 

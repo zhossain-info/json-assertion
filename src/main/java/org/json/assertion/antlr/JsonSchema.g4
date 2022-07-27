@@ -1,22 +1,22 @@
 grammar JsonSchema;
 
-// Json definition
 json
     : object
     | array;
 
-// Object definition
 object
     : '{' (keyValue (',' keyValue)* )? '}';
 
 keyValue
-    : KEY ':' value;
+    : key ':' value;
 
-// Array definition
 array
     : '[' (value (',' value)* )? ']';
 
-// Value definition
+key
+    : STRING
+    ;
+
 value
     : primitive
     | array
@@ -24,7 +24,7 @@ value
     ;
 
 primitive
-    : DATATYPE
+    : DATATYPE      # DataType
     ;
 
 
@@ -33,7 +33,7 @@ DATATYPE:
     '#' [a-z]+;
 
 // Key definition
-KEY : '"' (~["\\] | ESCAPE)* '"';
+STRING : '"' (~["\\] | ESCAPE)* '"';
 fragment ESCAPE : '\\' ( ["\\/bfnrt]| UNICODE) ;
 fragment UNICODE : 'u' HEXADECIMAL HEXADECIMAL HEXADECIMAL HEXADECIMAL;
 fragment HEXADECIMAL : [0-9a-fA-F];
@@ -41,8 +41,5 @@ fragment HEXADECIMAL : [0-9a-fA-F];
 // Skip white spaces
 WHITE_SPACE : [\r\n\t ]+ -> skip;
 
-// Skip multiline comments
 MULTILINE_COMMENTS : '/*' .*? '*/' -> skip;
-
-// Skip single line comments
 LINE_COMMENTS : '//' ~('\r' | '\n')* -> skip;

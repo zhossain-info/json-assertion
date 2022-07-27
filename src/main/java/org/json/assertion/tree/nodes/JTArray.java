@@ -1,7 +1,4 @@
-package org.json.assertion.tree;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.json.assertion.tree.nodes;
 
 public class JTArray extends JTNode {
 
