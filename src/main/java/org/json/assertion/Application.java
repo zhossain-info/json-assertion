@@ -1,10 +1,7 @@
 package org.json.assertion;
 
 import org.json.assertion.tree.DataType;
-import org.json.assertion.tree.nodes.JTDataNode;
-import org.json.assertion.tree.nodes.JTDataType;
-import org.json.assertion.tree.nodes.JTNode;
-import org.json.assertion.tree.nodes.JTRoot;
+import org.json.assertion.tree.nodes.*;
 import org.json.assertion.tree.JsonInputTree;
 import org.json.assertion.tree.JsonSchemaTree;
 
@@ -33,9 +30,11 @@ public class Application {
     private static void traverseSchema(JTNode schemaNode, JTNode inputNode) {
         System.out.println(String.format("Schema Node: %s, Input Node: %s",
                 schemaNode, inputNode));
-        if(schemaNode instanceof JTDataType) {
+        //if(schemaNode instanceof JTValidator) return;
+
+        if(schemaNode instanceof JTValidator) {
             if(inputNode instanceof JTDataNode) {
-                DataType expected = ((JTDataType) schemaNode).getDataType();
+                DataType expected = ((JTValidator) schemaNode).getJTDataType().getDataType();
                 DataType actual = ((JTDataNode) inputNode).getDataType();
                 if(expected == actual) {
                     System.out.println(
@@ -47,6 +46,7 @@ public class Application {
             } else {
                 System.out.println("Invalid Schema");
             }
+            return;
         }
         Iterator<JTNode> schemaIterator = schemaNode.getChildren().iterator();
         Iterator<JTNode> inputIterator = inputNode.getChildren().iterator();

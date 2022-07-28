@@ -7,7 +7,7 @@ public class JTDataType extends JTLeafNode {
     private DataType dataType;
     public JTDataType(JTNode parent, String type) {
         super(parent);
-        this.dataType = DataType.valueOf(type.toUpperCase().substring(1));
+        this.dataType = DataType.from(type);
     }
 
     public DataType getDataType() {

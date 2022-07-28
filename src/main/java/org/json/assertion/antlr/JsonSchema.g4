@@ -1,8 +1,11 @@
 grammar JsonSchema;
 
 json
-    : object
-    | array;
+    : cImport* object
+    | cImport* array;
+
+cImport
+    : 'import' CLASS_NAME;
 
 object
     : '{' (keyValue (',' keyValue)* )? '}';
@@ -18,27 +21,56 @@ key
     ;
 
 value
-    : primitive
+    : validator
+    | primitive
     | array
     | object
     ;
 
-primitive
-    : DATATYPE      # DataType
+validator
+    : function? dataType
+    | function dataType?
     ;
 
+function
+    : APPLY_LEVEL IDENTIFIER '(' ( value (',' value)* )? ')';
 
-// Data type definition
-DATATYPE:
-    '#' [a-z]+;
+dataType
+    : DATATYPE;
 
-// Key definition
+primitive
+    : BOOLEAN       # Boolean
+    | STRING        # String
+    | INTEGER       # Integer
+    | FLOAT         # Float
+    | DECIMAL       # Decimal
+    | NULL          # Null
+    ;
+
+CLASS_NAME: IDENTIFIER ('.' IDENTIFIER)*;
+
+APPLY_LEVEL: '@'+;
+IDENTIFIER : NONDIGIT ( NONDIGIT | DIGIT )*;
+DATATYPE: '#' [a-z]+;
+
+BOOLEAN : 'true' | 'false';
+
 STRING : '"' (~["\\] | ESCAPE)* '"';
 fragment ESCAPE : '\\' ( ["\\/bfnrt]| UNICODE) ;
 fragment UNICODE : 'u' HEXADECIMAL HEXADECIMAL HEXADECIMAL HEXADECIMAL;
 fragment HEXADECIMAL : [0-9a-fA-F];
 
-// Skip white spaces
+DECIMAL : INTEGER ('.' DIGIT+ )? EXPONENT;
+FLOAT : INTEGER ('.' DIGIT+ );
+INTEGER : '-' ? INTDIGIT;
+
+fragment EXPONENT : [eE] [+\-]? INTDIGIT+;
+fragment INTDIGIT : '0' | [1-9] DIGIT*;
+fragment DIGIT : [0-9];
+fragment NONDIGIT: [A-Za-z_];
+
+NULL : 'null';
+
 WHITE_SPACE : [\r\n\t ]+ -> skip;
 
 MULTILINE_COMMENTS : '/*' .*? '*/' -> skip;

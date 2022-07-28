@@ -1,5 +1,8 @@
 package org.json.assertion.tree.nodes;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class JTLeafNode extends JTNode {
 
     public JTLeafNode(JTNode parent) {

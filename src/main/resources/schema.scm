@@ -1,3 +1,5 @@
+import org.json.assertion.lib.CoreFunction
+
 {
     "test" : #integer,
     "test2" : #string,
