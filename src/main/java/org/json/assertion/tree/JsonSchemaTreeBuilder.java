@@ -68,7 +68,9 @@ public class JsonSchemaTreeBuilder extends JsonSchemaBaseListener {
 
     @Override
     public void enterValidator(JsonSchemaParser.ValidatorContext ctx) {
-        stack.push(new JTValidator(stack.peek()));
+        JTValidator validator = new JTValidator(stack.peek());
+        if(ctx.OPTIONAL() != null) validator.setOptional(true);
+        stack.push(validator);
     }
 
     @Override

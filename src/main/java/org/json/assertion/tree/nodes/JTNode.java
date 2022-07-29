@@ -1,5 +1,6 @@
 package org.json.assertion.tree.nodes;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.json.assertion.tree.DataType;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
+@Getter
 public abstract class JTNode {
 
     private JTNode parent;
@@ -23,9 +25,5 @@ public abstract class JTNode {
 
     public JTNode getChild(int index) {
         return children.get(index);
-    }
-
-    public List<JTNode> getChildren() {
-        return children;
     }
 }

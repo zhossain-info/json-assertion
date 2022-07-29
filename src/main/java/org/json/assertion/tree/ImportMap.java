@@ -1,12 +1,10 @@
 package org.json.assertion.tree;
 
 
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.json.assertion.tree.nodes.JTFunction;
-import org.json.assertion.tree.nodes.JTNode;
+import org.json.assertion.utils.ArgInput;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -44,10 +42,10 @@ public class ImportMap {
         }
     }
 
-    public void invokeFunction(JTFunction function, JTNode node) {
+    public void invokeFunction(JTFunction function, ArgInput input) {
         try {
             Pair<Object, Method> pair = map.get(function.getName());
-            pair.getRight().invoke(pair.getLeft(), function, node);
+            pair.getRight().invoke(pair.getLeft(), function, input);
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {

@@ -28,8 +28,8 @@ value
     ;
 
 validator
-    : function? dataType
-    | function dataType?
+    : OPTIONAL? function? dataType
+    | OPTIONAL? function dataType?
     ;
 
 function
@@ -69,6 +69,7 @@ fragment INTDIGIT : '0' | [1-9] DIGIT*;
 fragment DIGIT : [0-9];
 fragment NONDIGIT: [A-Za-z_];
 
+OPTIONAL : '?';
 NULL : 'null';
 
 WHITE_SPACE : [\r\n\t ]+ -> skip;

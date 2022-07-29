@@ -1,84 +1,117 @@
 package org.json.assertion;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.commons.lang3.tuple.Pair;
 import org.json.assertion.tree.ImportMap;
 import org.json.assertion.tree.JsonInputTree;
 import org.json.assertion.tree.JsonSchemaTree;
 import org.json.assertion.tree.nodes.*;
+import org.json.assertion.utils.ArgInput;
 
-import java.awt.image.ImageProducer;
 import java.util.List;
 
 public class SchemaValidator {
 
-    @AllArgsConstructor
-    @Getter
-    private class ChildPointer {
-        private JTNode parent;
-        private int index;
-
-        public JTNode getChild() {
-            return parent.getChildren().get(index);
-        }
-    }
-
     public void validate(String schema, String input) {
         JsonInputTree inputTree = new JsonInputTree();
         JsonSchemaTree schemaTree = new JsonSchemaTree();
-        traverse(schemaTree.getRoot(schema), inputTree.getRoot(input));
+        matchCommon(schemaTree.getRoot(schema), inputTree.getRoot(input));
     }
 
-    private void traverse(JTNode schema, JTNode input) {
+    private void matchCommon(JTNode schema, JTNode input) {
         System.out.println(String.format("Schema Node: %s, Input Node: %s", schema, input));
-        List<JTNode> schemaChildren = schema.getChildren();
-        List<JTNode> inputChildren = input.getChildren();
-        for(int i = 0; i < schemaChildren.size(); i++) {
-            JTNode schemaNode = schemaChildren.get(i);
-            if(schemaNode instanceof JTValidator) {
-                validate((JTValidator) schemaNode, new ChildPointer(input, i));
-            } else if(schemaNode instanceof JTLeafNode) {
-                validate((JTLeafNode) schemaNode, (JTLeafNode) input.getChild(i));
+        if(schema instanceof  JTObject) {
+            matchObject((JTObject) schema, input);
+        } else if(schema instanceof JTArray) {
+            matchArray((JTArray) schema, input);
+        } else if(schema instanceof JTValidator) {
+            matchValidator((JTValidator) schema, new ArgInput(input));
+        } else if(schema instanceof JTLeafNode) {
+            matchLeaf((JTLeafNode) schema, (JTLeafNode) input);
+        } else {
+            matchInternal(schema, input);
+        }
+    }
+
+    private void matchArray(JTArray sArray, JTNode iNode) {
+        if(!sArray.getClass().equals(iNode.getClass())) {
+            System.err.println("Mismatch found: Data type mismatch in internal node");
+        }
+        List<JTNode> sChildren = sArray.getChildren();
+        List<JTNode> iChildren = iNode.getChildren();
+        for(int i = 0; i < sChildren.size(); i++) {
+            if(sChildren.get(i) instanceof JTValidator) {
+                matchValidator((JTValidator) sChildren.get(i), new ArgInput(iNode, i));
             } else {
-                JTNode inputNode = inputChildren.get(i);
-                if(!schemaNode.getClass().equals(inputNode.getClass())) {
-                    System.err.println("Mismatch found: Data type mismatch in internal node");
-                }
-                traverse(schemaNode, inputNode);
+                matchCommon(sChildren.get(i), iChildren.get(i));
             }
         }
     }
 
-    private void validate(JTValidator validator, ChildPointer pointer) {
-        System.out.println(String.format("Schema Node: %s, Input Node: %s", validator, pointer.getChild()));
-        JTDataType dataType = validator.getJTDataType();
-        if(dataType != null) validate(dataType, pointer.getChild());
-        JTFunction function = validator.getJTFunction();
-        if(function != null) validate(function, pointer.getChild());
-    }
-
-    private void validate(JTDataType dataType, JTNode input) {
-        System.out.println(String.format("Schema Node: %s, Input Node: %s", dataType, input));
-        if(!dataType.getDataType().getNodeClass().equals(input.getClass())) {
-            System.err.println("Mismatch found: Data type mismatch in data type declaration");
+    private void matchKeyValue(JTKeyValue sKeyValue, JTNode input) {
+        System.out.println(String.format("Schema Node: %s, Input Node: %s", sKeyValue, input));
+        JTKey sKey = (JTKey) sKeyValue.getChild(0);
+        JTNode sValue = sKeyValue.getChild(1);
+        JTKeyValue iKeyValue = ((JTObject) input).getKeyValue(sKey);
+        if(sValue instanceof JTValidator) {
+            if(((JTValidator) sValue).isOptional() && iKeyValue == null) return;
+        }
+        if(iKeyValue == null) {
+            System.err.println("non optional key-value not found");
+            return;
+        }
+        List<JTNode> children = sKeyValue.getChildren();
+        for(int i = 0; i < children.size(); i++) {
+            matchCommon(children.get(i), iKeyValue.getChild(i));
         }
     }
 
-    private void validate(JTFunction function, JTNode input) {
-        System.out.println(String.format("Schema Node: %s, Input Node: %s", function, input));
-        ImportMap importMap = ImportMap.getInstance();
-        importMap.invokeFunction(function, input);
+    private void matchValidator(JTValidator validator, ArgInput input) {
+        //System.out.println(String.format("Schema Node: %s, Input Node: %s", validator, input));
+        JTDataType dataType = validator.getJTDataType();
+        if(dataType != null) matchDataType(dataType, input);
+        JTFunction function = validator.getJTFunction();
+        if(function != null) matchFunction(function, input);
     }
 
-    private void validate(JTLeafNode schema, JTLeafNode input) {
-        System.out.println(String.format("Schema Node: %s, Input Node: %s", schema, input));
+    private void matchLeaf(JTLeafNode schema, JTLeafNode input) {
+        //System.out.println(String.format("Schema Node: %s, Input Node: %s", schema, input));
         if(!schema.getClass().equals(input.getClass())) {
             System.out.println("Mismatch found: Data type mismatch in leaf node");
         }
         if(!schema.getText().equals(input.getText())) {
             System.out.println("Mismatch found: Value mismatch in leaf node");
         }
+    }
+
+    private void matchObject(JTObject sObject, JTNode iNode) {
+        if(!sObject.getClass().equals(iNode.getClass())) {
+            System.err.println("Mismatch found: Data type mismatch in internal node");
+        }
+        List<JTNode> sChildren = sObject.getChildren();
+        for(int i = 0; i < sChildren.size(); i++) {
+            matchKeyValue((JTKeyValue) sChildren.get(i), iNode);
+        }
+    }
+    private void matchInternal(JTNode schema, JTNode input) {
+        if(!schema.getClass().equals(input.getClass())) {
+            System.err.println("Mismatch found: Data type mismatch in internal node");
+        }
+        List<JTNode> schemaChildren = schema.getChildren();
+        List<JTNode> inputChildren = input.getChildren();
+        for(int i = 0; i < schemaChildren.size(); i++) {
+            matchCommon(schemaChildren.get(i), inputChildren.get(i));
+        }
+    }
+
+    private void matchDataType(JTDataType dataType, ArgInput input) {
+        System.out.println(String.format("Schema Node: %s, Input Node: %s", dataType, input));
+        if(!dataType.getDataType().getNodeClass().equals(input.getNode().getClass())) {
+            System.err.println("Mismatch found: Data type mismatch in data type declaration");
+        }
+    }
+
+    private void matchFunction(JTFunction function, ArgInput input) {
+        System.out.println(String.format("Schema Node: %s, Input Node: %s", function, input));
+        ImportMap importMap = ImportMap.getInstance();
+        importMap.invokeFunction(function, input);
     }
 }

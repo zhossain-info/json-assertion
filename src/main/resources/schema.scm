@@ -1,13 +1,15 @@
 import org.json.assertion.lib.CoreFunction
 
 {
-    "test" : #integer,
-    "test2" : #string,
-    "test3" : #float,
-    "test4" : #decimal,
-    "test5" : {
-            "test6" : #boolean
+    "testInteger" : #integer,
+    "testString" : #string,
+    "testFloat" : #float,
+    "testDecimal" : #decimal,
+    "testObject" : {
+            "testInnerBoolean" : #boolean
     },
-    "test7" : @minMax(1, 10)#integer,
-    "wrongTest" : #integer
+    "testFunction" : @minMax(1, 10)#integer,
+    "testOptional" : ?#integer,
+    "wrongTest" : #integer,
+    "testArray" : [1, @minMax(1, 50), 3]
 }

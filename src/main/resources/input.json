@@ -1,11 +1,12 @@
 {
-    "test" : 20,
-    "test2" : "test string",
-    "test3" : 100.56,
-    "test4" : 1.3489e500,
-    "test5" : {
-        "test6" : true
+    "testInteger" : 20,
+    "testString" : "test string",
+    "testFloat" : 100.56,
+    "testDecimal" : 1.3489e500,
+    "testObject" : {
+        "testInnerBoolean" : true
     },
-    "test7" : 5,
-    "wrongTest" : "using wrong data type in schema"
+    "testFunction" : 5,
+    "wrongTest" : "using wrong data type in schema",
+    "testArray" : [1, 2, 3]
 }

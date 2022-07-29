@@ -15,4 +15,9 @@ public class JTKey extends JTLeafNode {
     public String getText() {
         return text;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return text.equals(((JTKey)obj).getText());
+    }
 }
