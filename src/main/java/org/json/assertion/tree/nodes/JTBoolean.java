@@ -2,12 +2,17 @@ package org.json.assertion.tree.nodes;
 
 import org.json.assertion.tree.DataType;
 
-public class JTBoolean extends JTDataNode {
+public class JTBoolean extends JTLeafNode {
 
     private boolean value;
 
     public JTBoolean(JTNode parent, String text) {
-        super(parent, DataType.BOOLEAN);
+        super(parent);
         this.value = Boolean.valueOf(text);
+    }
+
+    @Override
+    public String getText() {
+        return String.valueOf(value);
     }
 }

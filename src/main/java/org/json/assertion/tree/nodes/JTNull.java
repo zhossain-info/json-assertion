@@ -2,12 +2,17 @@ package org.json.assertion.tree.nodes;
 
 import org.json.assertion.tree.DataType;
 
-public class JTNull extends JTDataNode {
+public class JTNull extends JTLeafNode {
 
     private String value;
 
     public JTNull(JTNode parent, String text) {
-        super(parent, DataType.NULL);
+        super(parent);
         this.value = text;
+    }
+
+    @Override
+    public String getText() {
+        return String.valueOf(value);
     }
 }

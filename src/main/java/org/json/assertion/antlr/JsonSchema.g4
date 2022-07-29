@@ -47,11 +47,11 @@ primitive
     | NULL          # Null
     ;
 
-CLASS_NAME: IDENTIFIER ('.' IDENTIFIER)*;
-
 APPLY_LEVEL: '@'+;
 IDENTIFIER : NONDIGIT ( NONDIGIT | DIGIT )*;
 DATATYPE: '#' [a-z]+;
+
+CLASS_NAME : IDENTIFIER ('.' IDENTIFIER)*;
 
 BOOLEAN : 'true' | 'false';
 

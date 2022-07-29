@@ -15,8 +15,16 @@ public class JTValidator extends JTNode {
     }
 
     public JTDataType getJTDataType() {
+        return (JTDataType) getInstanceOf(JTDataType.class);
+    }
+
+    public JTFunction getJTFunction() {
+        return (JTFunction) getInstanceOf(JTFunction.class);
+    }
+
+    private JTNode getInstanceOf(Class<?> clazz) {
         for(JTNode n : this.getChildren()) {
-            if(n instanceof JTDataType) return (JTDataType) n;
+            if (clazz.isInstance(n)) return n;
         }
         return null;
     }

@@ -6,5 +6,6 @@
     "test5" : {
         "test6" : true
     },
+    "test7" : 5,
     "wrongTest" : "using wrong data type in schema"
 }

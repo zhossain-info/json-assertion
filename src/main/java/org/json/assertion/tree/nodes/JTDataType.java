@@ -13,4 +13,9 @@ public class JTDataType extends JTLeafNode {
     public DataType getDataType() {
         return dataType;
     }
+
+    @Override
+    public String getText() {
+        return dataType.getName();
+    }
 }

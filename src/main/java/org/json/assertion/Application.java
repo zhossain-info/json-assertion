@@ -13,46 +13,11 @@ import java.util.Iterator;
 
 public class Application {
     public static void main(String[] args) throws URISyntaxException, IOException {
-        JsonInputTree inputTree = new JsonInputTree();
-        JsonSchemaTree schemaTree = new JsonSchemaTree();
-
-        String json = Files.readString(Paths.get(inputTree.getClass()
+        SchemaValidator validator = new SchemaValidator();
+        String json = Files.readString(Paths.get(validator.getClass()
                 .getResource("/input.json").toURI()));
-        String schema = Files.readString(Paths.get(inputTree.getClass()
+        String schema = Files.readString(Paths.get(validator.getClass()
                 .getResource("/schema.scm").toURI()));
-
-        JTRoot inputRoot = inputTree.getRoot(json);
-        JTRoot schemaRoot = schemaTree.getRoot(schema);
-        System.out.println("\nJson Schema and Input Tree:");
-        traverseSchema(schemaRoot, inputRoot);
-    }
-
-    private static void traverseSchema(JTNode schemaNode, JTNode inputNode) {
-        System.out.println(String.format("Schema Node: %s, Input Node: %s",
-                schemaNode, inputNode));
-        //if(schemaNode instanceof JTValidator) return;
-
-        if(schemaNode instanceof JTValidator) {
-            if(inputNode instanceof JTDataNode) {
-                DataType expected = ((JTValidator) schemaNode).getJTDataType().getDataType();
-                DataType actual = ((JTDataNode) inputNode).getDataType();
-                if(expected == actual) {
-                    System.out.println(
-                            String.format("\t\tMatched: Expected: %s, Actual: %s", expected, actual));
-                } else {
-                    System.err.println(
-                            String.format("\t\tMismatched: Expected: %s, Actual: %s", expected, actual));
-                }
-            } else {
-                System.out.println("Invalid Schema");
-            }
-            return;
-        }
-        Iterator<JTNode> schemaIterator = schemaNode.getChildren().iterator();
-        Iterator<JTNode> inputIterator = inputNode.getChildren().iterator();
-
-        while(schemaIterator.hasNext()) {
-            traverseSchema(schemaIterator.next(), inputIterator.next());
-        }
+        validator.validate(schema, json);
     }
 }

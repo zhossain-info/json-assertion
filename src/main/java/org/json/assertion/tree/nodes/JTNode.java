@@ -1,12 +1,13 @@
 package org.json.assertion.tree.nodes;
 
 import lombok.NoArgsConstructor;
+import org.json.assertion.tree.DataType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
-public class JTNode {
+public abstract class JTNode {
 
     private JTNode parent;
     private List<JTNode> children = new ArrayList<>();

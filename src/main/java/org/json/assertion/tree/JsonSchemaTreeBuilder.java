@@ -82,7 +82,6 @@ public class JsonSchemaTreeBuilder extends JsonSchemaBaseListener {
         int level = ctx.APPLY_LEVEL().getText().length();
         JTFunction function = new JTFunction(stack.peek(), name, level);
         JTArgument argument = new JTArgument(function);
-        function.setArguments(argument);
         stack.push(argument);
     }
 
@@ -94,5 +93,30 @@ public class JsonSchemaTreeBuilder extends JsonSchemaBaseListener {
     @Override
     public void enterDataType(JsonSchemaParser.DataTypeContext ctx) {
         new JTDataType(stack.peek(), ctx.DATATYPE().getText());
+    }
+
+    @Override
+    public void enterBoolean(JsonSchemaParser.BooleanContext ctx) {
+        new JTBoolean(stack.peek(), ctx.BOOLEAN().getText());
+    }
+
+    @Override
+    public void enterString(JsonSchemaParser.StringContext ctx) {
+        new JTString(stack.peek(), ctx.STRING().getText());
+    }
+
+    @Override
+    public void enterInteger(JsonSchemaParser.IntegerContext ctx) {
+        new JTInteger(stack.peek(), ctx.INTEGER().getText());
+    }
+
+    @Override
+    public void enterFloat(JsonSchemaParser.FloatContext ctx) {
+        new JTFloat(stack.peek(), ctx.FLOAT().getText());
+    }
+
+    @Override
+    public void enterDecimal(JsonSchemaParser.DecimalContext ctx) {
+        new JTDecimal(stack.peek(), ctx.DECIMAL().getText());
     }
 }
