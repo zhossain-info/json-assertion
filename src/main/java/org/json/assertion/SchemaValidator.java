@@ -32,7 +32,7 @@ public class SchemaValidator {
         } else if(schema instanceof JTArray) {
             matchArray((JTArray) schema, input);
         } else if(schema instanceof JTValidator) {
-            matchValidator((JTValidator) schema, new ArgInput(input));
+            matchValidator((JTValidator) schema, ArgInput.fromChild(input));
         } else if(schema instanceof JTLeafNode) {
             matchLeaf((JTLeafNode) schema, (JTLeafNode) input);
         } else {
@@ -49,10 +49,11 @@ public class SchemaValidator {
         List<JTNode> sChildren = sArray.getChildren();
         List<JTNode> iChildren = iNode.getChildren();
         for(int i = 0; i < sChildren.size(); i++) {
-            if(sChildren.get(i) instanceof JTValidator) {
-                matchValidator((JTValidator) sChildren.get(i), new ArgInput(iNode, i));
+            JTNode sChild = sChildren.get(i);
+            if(sChild instanceof JTValidator) {
+                matchValidator((JTValidator) sChild, ArgInput.from(iNode, i));
             } else {
-                matchCommon(sChildren.get(i), iChildren.get(i));
+                matchCommon(sChild, iChildren.get(i));
             }
         }
     }
@@ -106,7 +107,13 @@ public class SchemaValidator {
         }
         List<JTNode> sChildren = sObject.getChildren();
         for(int i = 0; i < sChildren.size(); i++) {
-            matchKeyValue((JTKeyValue) sChildren.get(i), iNode);
+            JTNode sChild = sChildren.get(i);
+            if(sChild instanceof JTKeyValue) {
+                matchKeyValue((JTKeyValue) sChild, iNode);
+            } else {
+                matchFunction((JTFunction) sChild, ArgInput.fromParent(iNode));
+            }
+
         }
     }
     private void matchInternal(JTNode schema, JTNode input) {
@@ -124,7 +131,7 @@ public class SchemaValidator {
 
     private void matchDataType(JTDataType dataType, ArgInput input) {
         System.out.println(String.format("Schema Node: %s, Input Node: %s", dataType, input));
-        if(!dataType.getDataType().getNodeClass().equals(input.getNode().getClass())) {
+        if(!dataType.getDataType().getNodeClass().equals(input.getInputChild().getClass())) {
             //System.err.println("Mismatch found: Data type mismatch in data type declaration");
             errorList.add(new AssertionFailedError(
                     "Mismatch found: Data type mismatch in data type declaration"));

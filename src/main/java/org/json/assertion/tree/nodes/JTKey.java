@@ -1,5 +1,10 @@
 package org.json.assertion.tree.nodes;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import java.util.Objects;
+
 public class JTKey extends JTLeafNode {
 
     private String text;
@@ -15,7 +20,15 @@ public class JTKey extends JTLeafNode {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return text.equals(((JTKey)obj).getText());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JTKey key = (JTKey) o;
+        return text.equals(key.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(text);
     }
 }

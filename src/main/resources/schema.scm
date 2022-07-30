@@ -6,7 +6,9 @@ import org.json.assertion.lib.CoreFunction
     "testFloat" : #float,
     "testDecimal" : #decimal,
     "testObject" : {
-            "testInnerBoolean" : #boolean
+            "testInnerBoolean" : #boolean,
+            "testConcreteValue" : 5,
+            @containsKeys("testInnerBoolean", "testConcreteValue")
     },
     "testFunction" : @minMax(1, 10)#integer,
     "testOptional" : ?#integer,

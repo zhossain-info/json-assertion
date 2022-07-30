@@ -1,25 +1,40 @@
 package org.json.assertion.utils;
 
-import lombok.Getter;
 import org.json.assertion.tree.nodes.JTNode;
 
-@Getter
 public class ArgInput {
     private JTNode parent;
-    private JTNode node;
+    private JTNode child;
 
-    public ArgInput(JTNode node) {
-        this.node = node;
+    public static ArgInput fromParent(JTNode parent) {
+        ArgInput input = new ArgInput();
+        input.parent = parent;
+        return input;
     }
 
-    public ArgInput(JTNode parent, int index) {
+    public static ArgInput fromChild(JTNode child) {
+        ArgInput input = new ArgInput();
+        input.child = child;
+        return input;
+    }
+
+    public static ArgInput from(JTNode parent, int index) {
+        ArgInput input = new ArgInput();
         int size = parent.getChildren().size();
-        if(index < size) this.node = parent.getChild(index);
-        else this.parent = parent;
+        if(index < size) input.child = parent.getChild(index);
+        else input.parent = parent;
+        return input;
+    }
+
+    private ArgInput() {
     }
 
     public JTNode getInputParent() {
-        if(node != null) return node.getParent();
+        if(child != null) return child.getParent();
         else return parent;
+    }
+
+    public JTNode getInputChild() {
+        return child;
     }
 }

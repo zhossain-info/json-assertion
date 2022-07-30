@@ -1,22 +1,27 @@
 grammar JsonSchema;
 
 json
-    : cImport* object
-    | cImport* array;
+    : classImport* object
+    | classImport* array;
 
-cImport
+classImport
     : 'import' CLASS_NAME;
 
 object
-    : '{' (keyValue (',' keyValue)* )? '}';
+    : '{' (keyValueFunction (',' keyValueFunction)* )? '}';
+
+keyValueFunction
+    : function
+    | keyValue
+    ;
 
 keyValue
-    : key ':' value;
+    : stringKey ':' value;
 
 array
     : '[' (value (',' value)* )? ']';
 
-key
+stringKey
     : STRING
     ;
 

@@ -13,7 +13,7 @@ public class JsonSchemaTreeBuilder extends JsonSchemaBaseListener {
     private Stack<JTNode> stack = new Stack<>();
 
     @Override
-    public void enterCImport(JsonSchemaParser.CImportContext ctx) {
+    public void enterClassImport(JsonSchemaParser.ClassImportContext ctx) {
         ImportMap importMap = ImportMap.getInstance();
         importMap.addClass(ctx.CLASS_NAME().getText());
     }
@@ -59,7 +59,7 @@ public class JsonSchemaTreeBuilder extends JsonSchemaBaseListener {
     }
 
     @Override
-    public void enterKey(JsonSchemaParser.KeyContext ctx) {
+    public void enterStringKey(JsonSchemaParser.StringKeyContext ctx) {
         new JTKey(stack.peek(), ctx.STRING().getText());
     }
 
