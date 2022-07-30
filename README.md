@@ -38,3 +38,8 @@ import org.json.assertion.lib.CoreFunction
     "testArray" : [1, @minMax(1, 50), 3, @containsAt(0, 3, 2, 1)]
 }
 ```
+minMax(minimum number inclusive, maximum number inclusive)
+check the element on the position is in range thus its position need to be inside array bound.
+
+containsAt(index of array element, alternative values that match against the array elements ...)
+It applies on the parent array to fetch the index thus its position in array need not to be inside array bound
