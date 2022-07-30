@@ -60,7 +60,7 @@ public class SchemaValidator {
 
     private void matchKeyValue(JTKeyValue sKeyValue, JTNode input) {
         System.out.println(String.format("Schema Node: %s, Input Node: %s", sKeyValue, input));
-        JTKey sKey = (JTKey) sKeyValue.getChild(0);
+        JTString sKey = (JTString) sKeyValue.getChild(0);
         JTNode sValue = sKeyValue.getChild(1);
         JTKeyValue iKeyValue = ((JTObject) input).getKeyValue(sKey);
         if(sValue instanceof JTValidator) {

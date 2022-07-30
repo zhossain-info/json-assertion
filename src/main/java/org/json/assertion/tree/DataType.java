@@ -12,7 +12,6 @@ public enum DataType {
     DATA_TYPE("dataType", JTDataType.class),
     OBJECT("object", JTObject.class),
     KEY_VALUE("keyValue", JTKeyValue.class),
-    KEY_STRING("key", JTKey.class),
     ARRAY("array", JTArray.class),
     STRING("string", JTString.class),
     INTEGER("integer", JTInteger.class),

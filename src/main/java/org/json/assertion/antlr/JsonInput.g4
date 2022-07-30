@@ -8,14 +8,10 @@ object
     : '{' (keyValue (',' keyValue)* )? '}';
 
 keyValue
-    : key ':' value;
+    : STRING ':' value;
 
 array
     : '[' (value (',' value)* )? ']';
-
-key
-    : STRING
-    ;
 
 value
     : primitive

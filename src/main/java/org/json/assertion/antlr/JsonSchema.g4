@@ -16,14 +16,10 @@ keyValueFunction
     ;
 
 keyValue
-    : stringKey ':' value;
+    : STRING ':' value;
 
 array
     : '[' (value (',' value)* )? ']';
-
-stringKey
-    : STRING
-    ;
 
 value
     : validator

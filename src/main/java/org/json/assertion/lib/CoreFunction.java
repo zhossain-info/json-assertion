@@ -6,7 +6,6 @@ import org.json.assertion.exception.InvalidContextError;
 import org.json.assertion.tree.ErrorList;
 import org.json.assertion.tree.nodes.*;
 import org.json.assertion.utils.ArgInput;
-import org.json.assertion.utils.Utils;
 
 import java.util.List;
 
@@ -57,9 +56,9 @@ public class CoreFunction {
         try {
             List<JTNode> arguments = function.getArguments();
             JTObject object = (JTObject) input.getInputParent();
-            List<JTKey> keys = object.getKeys();
+            List<JTString> keys = object.getKeys();
             for (JTNode n : arguments) {
-                if (!Utils.search(keys, n)) {
+                if(!keys.contains(n)) {
                     errorList.add(new AssertionFailedError(((JTString) n).getText()
                             + " not found in containsKey"));
                 }

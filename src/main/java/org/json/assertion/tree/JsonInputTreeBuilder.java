@@ -35,7 +35,9 @@ public class JsonInputTreeBuilder extends JsonInputBaseListener {
 
     @Override
     public void enterKeyValue(JsonInputParser.KeyValueContext ctx) {
-        stack.push(new JTKeyValue(stack.peek()));
+        JTKeyValue keyValue = new JTKeyValue(stack.peek());
+        new JTString(keyValue, ctx.STRING().getText());
+        stack.push(keyValue);
     }
 
     @Override
@@ -51,11 +53,6 @@ public class JsonInputTreeBuilder extends JsonInputBaseListener {
     @Override
     public void exitArray(JsonInputParser.ArrayContext ctx) {
         stack.pop();
-    }
-
-    @Override
-    public void enterKey(JsonInputParser.KeyContext ctx) {
-        new JTKey(stack.peek(), ctx.STRING().getText());
     }
 
     @Override

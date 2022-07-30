@@ -40,7 +40,9 @@ public class JsonSchemaTreeBuilder extends JsonSchemaBaseListener {
 
     @Override
     public void enterKeyValue(JsonSchemaParser.KeyValueContext ctx) {
-        stack.push(new JTKeyValue(stack.peek()));
+        JTKeyValue keyValue = new JTKeyValue(stack.peek());
+        new JTString(keyValue, ctx.STRING().getText());
+        stack.push(keyValue);
     }
 
     @Override
@@ -56,11 +58,6 @@ public class JsonSchemaTreeBuilder extends JsonSchemaBaseListener {
     @Override
     public void exitArray(JsonSchemaParser.ArrayContext ctx) {
         stack.pop();
-    }
-
-    @Override
-    public void enterStringKey(JsonSchemaParser.StringKeyContext ctx) {
-        new JTKey(stack.peek(), ctx.STRING().getText());
     }
 
     @Override
