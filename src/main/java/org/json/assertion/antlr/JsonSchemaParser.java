@@ -18,8 +18,8 @@ public class JsonSchemaParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		APPLY_LEVEL=10, IDENTIFIER=11, DATATYPE=12, CLASS_NAME=13, BOOLEAN=14, 
-		STRING=15, DECIMAL=16, FLOAT=17, INTEGER=18, OPTIONAL=19, NULL=20, WHITE_SPACE=21, 
+		T__9=10, IDENTIFIER=11, DATATYPE=12, CLASS_NAME=13, BOOLEAN=14, STRING=15, 
+		DECIMAL=16, FLOAT=17, INTEGER=18, OPTIONAL=19, NULL=20, WHITE_SPACE=21, 
 		MULTILINE_COMMENTS=22, LINE_COMMENTS=23;
 	public static final int
 		RULE_json = 0, RULE_classImport = 1, RULE_object = 2, RULE_keyValueFunction = 3, 
@@ -35,17 +35,16 @@ public class JsonSchemaParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'import'", "'{'", "','", "'}'", "':'", "'['", "']'", "'('", "')'", 
-			null, null, null, null, null, null, null, null, null, "'?'", "'null'"
+			null, "'import'", "'{'", "','", "'}'", "':'", "'['", "']'", "'@'", "'('", 
+			"')'", null, null, null, null, null, null, null, null, "'?'", "'null'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, "APPLY_LEVEL", 
-			"IDENTIFIER", "DATATYPE", "CLASS_NAME", "BOOLEAN", "STRING", "DECIMAL", 
-			"FLOAT", "INTEGER", "OPTIONAL", "NULL", "WHITE_SPACE", "MULTILINE_COMMENTS", 
-			"LINE_COMMENTS"
+			null, null, null, null, null, null, null, null, null, null, null, "IDENTIFIER", 
+			"DATATYPE", "CLASS_NAME", "BOOLEAN", "STRING", "DECIMAL", "FLOAT", "INTEGER", 
+			"OPTIONAL", "NULL", "WHITE_SPACE", "MULTILINE_COMMENTS", "LINE_COMMENTS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -261,7 +260,7 @@ public class JsonSchemaParser extends Parser {
 			setState(50);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==APPLY_LEVEL || _la==STRING) {
+			if (_la==T__7 || _la==STRING) {
 				{
 				setState(42);
 				keyValueFunction();
@@ -327,7 +326,7 @@ public class JsonSchemaParser extends Parser {
 			setState(56);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case APPLY_LEVEL:
+			case T__7:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(54);
@@ -433,7 +432,7 @@ public class JsonSchemaParser extends Parser {
 			setState(71);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__5) | (1L << APPLY_LEVEL) | (1L << DATATYPE) | (1L << BOOLEAN) | (1L << STRING) | (1L << DECIMAL) | (1L << FLOAT) | (1L << INTEGER) | (1L << OPTIONAL) | (1L << NULL))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__5) | (1L << T__7) | (1L << DATATYPE) | (1L << BOOLEAN) | (1L << STRING) | (1L << DECIMAL) | (1L << FLOAT) | (1L << INTEGER) | (1L << OPTIONAL) | (1L << NULL))) != 0)) {
 				{
 				setState(63);
 				value();
@@ -505,7 +504,7 @@ public class JsonSchemaParser extends Parser {
 			setState(79);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case APPLY_LEVEL:
+			case T__7:
 			case DATATYPE:
 			case OPTIONAL:
 				enterOuterAlt(_localctx, 1);
@@ -601,7 +600,7 @@ public class JsonSchemaParser extends Parser {
 				setState(85);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (_la==APPLY_LEVEL) {
+				if (_la==T__7) {
 					{
 					setState(84);
 					function();
@@ -653,7 +652,6 @@ public class JsonSchemaParser extends Parser {
 	}
 
 	public static class FunctionContext extends ParserRuleContext {
-		public TerminalNode APPLY_LEVEL() { return getToken(JsonSchemaParser.APPLY_LEVEL, 0); }
 		public TerminalNode IDENTIFIER() { return getToken(JsonSchemaParser.IDENTIFIER, 0); }
 		public List<ValueContext> value() {
 			return getRuleContexts(ValueContext.class);
@@ -683,15 +681,15 @@ public class JsonSchemaParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(97);
-			match(APPLY_LEVEL);
+			match(T__7);
 			setState(98);
 			match(IDENTIFIER);
 			setState(99);
-			match(T__7);
+			match(T__8);
 			setState(108);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__5) | (1L << APPLY_LEVEL) | (1L << DATATYPE) | (1L << BOOLEAN) | (1L << STRING) | (1L << DECIMAL) | (1L << FLOAT) | (1L << INTEGER) | (1L << OPTIONAL) | (1L << NULL))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__5) | (1L << T__7) | (1L << DATATYPE) | (1L << BOOLEAN) | (1L << STRING) | (1L << DECIMAL) | (1L << FLOAT) | (1L << INTEGER) | (1L << OPTIONAL) | (1L << NULL))) != 0)) {
 				{
 				setState(100);
 				value();
@@ -715,7 +713,7 @@ public class JsonSchemaParser extends Parser {
 			}
 
 			setState(110);
-			match(T__8);
+			match(T__9);
 			}
 		}
 		catch (RecognitionException re) {
@@ -979,12 +977,12 @@ public class JsonSchemaParser extends Parser {
 		"\u0000\u0000\u0000[]\u0003\u0010\b\u0000\\^\u0003\u0012\t\u0000]\\\u0001"+
 		"\u0000\u0000\u0000]^\u0001\u0000\u0000\u0000^`\u0001\u0000\u0000\u0000"+
 		"_R\u0001\u0000\u0000\u0000_Y\u0001\u0000\u0000\u0000`\u000f\u0001\u0000"+
-		"\u0000\u0000ab\u0005\n\u0000\u0000bc\u0005\u000b\u0000\u0000cl\u0005\b"+
+		"\u0000\u0000ab\u0005\b\u0000\u0000bc\u0005\u000b\u0000\u0000cl\u0005\t"+
 		"\u0000\u0000di\u0003\f\u0006\u0000ef\u0005\u0003\u0000\u0000fh\u0003\f"+
 		"\u0006\u0000ge\u0001\u0000\u0000\u0000hk\u0001\u0000\u0000\u0000ig\u0001"+
 		"\u0000\u0000\u0000ij\u0001\u0000\u0000\u0000jm\u0001\u0000\u0000\u0000"+
 		"ki\u0001\u0000\u0000\u0000ld\u0001\u0000\u0000\u0000lm\u0001\u0000\u0000"+
-		"\u0000mn\u0001\u0000\u0000\u0000no\u0005\t\u0000\u0000o\u0011\u0001\u0000"+
+		"\u0000mn\u0001\u0000\u0000\u0000no\u0005\n\u0000\u0000o\u0011\u0001\u0000"+
 		"\u0000\u0000pq\u0005\f\u0000\u0000q\u0013\u0001\u0000\u0000\u0000ry\u0005"+
 		"\u000e\u0000\u0000sy\u0005\u000f\u0000\u0000ty\u0005\u0012\u0000\u0000"+
 		"uy\u0005\u0011\u0000\u0000vy\u0005\u0010\u0000\u0000wy\u0005\u0014\u0000"+

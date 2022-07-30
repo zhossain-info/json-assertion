@@ -34,7 +34,7 @@ validator
     ;
 
 function
-    : APPLY_LEVEL IDENTIFIER '(' ( value (',' value)* )? ')';
+    : '@' IDENTIFIER '(' ( value (',' value)* )? ')';
 
 dataType
     : DATATYPE;
@@ -48,7 +48,6 @@ primitive
     | NULL          # Null
     ;
 
-APPLY_LEVEL: '@'+;
 IDENTIFIER : NONDIGIT ( NONDIGIT | DIGIT )*;
 DATATYPE: '#' [a-z]+;
 

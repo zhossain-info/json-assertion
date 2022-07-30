@@ -8,13 +8,11 @@ import java.util.List;
 @Getter @Setter
 public class JTFunction extends JTNode {
     private String name;
-    private int level;
     private boolean optional;
 
-    public JTFunction(JTNode parent, String name, int level) {
+    public JTFunction(JTNode parent, String name) {
         super(parent);
         this.name = name;
-        this.level = level;
     }
 
     public List<JTNode> getArguments() {
