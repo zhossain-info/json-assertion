@@ -14,9 +14,11 @@ import java.util.List;
 public class SchemaValidator {
 
     ErrorList errorList = ErrorList.getInstance();
+    ImportMap importMap = ImportMap.getInstance();
 
     public void validate(String schema, String input) {
         errorList.clear();
+        importMap.clear();
         JsonInputTree inputTree = new JsonInputTree();
         JsonSchemaTree schemaTree = new JsonSchemaTree();
         matchCommon(schemaTree.getRoot(schema), inputTree.getRoot(input));
@@ -146,7 +148,6 @@ public class SchemaValidator {
 
     private void matchFunction(JTFunction function, ArgInput input) {
         System.out.println(String.format("Schema Node: %s, Input Node: %s", function, input));
-        ImportMap importMap = ImportMap.getInstance();
         importMap.invokeFunction(function, input);
     }
 }

@@ -55,4 +55,7 @@ public class ImportMap {
         }
     }
 
+    public void clear() {
+        map.clear();
+    }
 }
