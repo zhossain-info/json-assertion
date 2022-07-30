@@ -1,7 +1,6 @@
 package org.json.assertion.tree.nodes;
 
 import lombok.NoArgsConstructor;
-import org.json.assertion.tree.DataType;
 
 @NoArgsConstructor
 public abstract class JTLeafNode extends JTNode {

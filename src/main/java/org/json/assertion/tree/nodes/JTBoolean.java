@@ -1,7 +1,5 @@
 package org.json.assertion.tree.nodes;
 
-import org.json.assertion.tree.DataType;
-
 public class JTBoolean extends JTLeafNode {
 
     private boolean value;

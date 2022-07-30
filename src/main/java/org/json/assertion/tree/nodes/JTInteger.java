@@ -1,7 +1,6 @@
 package org.json.assertion.tree.nodes;
 
 import lombok.Getter;
-import org.json.assertion.tree.DataType;
 @Getter
 public class JTInteger extends JTLeafNode {
 

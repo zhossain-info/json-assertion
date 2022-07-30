@@ -1,9 +1,5 @@
 package org.json.assertion.tree.nodes;
 
-import org.json.assertion.tree.DataType;
-
-import java.util.HashMap;
-
 public class JTObject extends JTNode {
 
     public JTObject(JTNode parent) {

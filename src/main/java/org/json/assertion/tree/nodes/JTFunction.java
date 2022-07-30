@@ -2,7 +2,6 @@ package org.json.assertion.tree.nodes;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.json.assertion.tree.DataType;
 
 import java.util.List;
 

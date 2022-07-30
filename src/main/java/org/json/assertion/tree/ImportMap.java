@@ -7,6 +7,7 @@ import org.json.assertion.utils.ArgInput;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 
 public class ImportMap {
@@ -27,6 +28,7 @@ public class ImportMap {
             Object object = clazz.getConstructor().newInstance();
 
             for (Method m : clazz.getDeclaredMethods()) {
+                if(!Modifier.isPublic(m.getModifiers())) continue;
                 map.put(m.getName(), Pair.of(object, m));
             }
         } catch (ClassNotFoundException e) {

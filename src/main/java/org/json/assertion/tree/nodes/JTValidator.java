@@ -1,9 +1,7 @@
 package org.json.assertion.tree.nodes;
 
-import lombok.*;
-import org.json.assertion.tree.DataType;
-
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter @Setter
 public class JTValidator extends JTNode {

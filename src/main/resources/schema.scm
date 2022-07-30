@@ -11,5 +11,5 @@ import org.json.assertion.lib.CoreFunction
     "testFunction" : @minMax(1, 10)#integer,
     "testOptional" : ?#integer,
     "wrongTest" : #integer,
-    "testArray" : [1, @minMax(1, 50), 3]
+    "testArray" : [1, @minMax(1, 50), 3, @containsAt(0, 3, 2, 1)]
 }

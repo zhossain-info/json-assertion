@@ -17,4 +17,9 @@ public class ArgInput {
         if(index < size) this.node = parent.getChild(index);
         else this.parent = parent;
     }
+
+    public JTNode getInputParent() {
+        if(node != null) return node.getParent();
+        else return parent;
+    }
 }

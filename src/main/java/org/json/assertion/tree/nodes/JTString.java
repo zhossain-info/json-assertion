@@ -1,7 +1,5 @@
 package org.json.assertion.tree.nodes;
 
-import org.json.assertion.tree.DataType;
-
 public class JTString extends JTLeafNode {
 
     private String value;
