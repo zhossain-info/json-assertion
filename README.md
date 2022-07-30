@@ -51,3 +51,9 @@ It applies on the parent array to fetch the index thus its position in array nee
 
 containsKeys(mandatory keys...)
 It applies on the parent object to search mandatory keys. Thrown error if missing any of the keys
+
+### See Also
+https://www.baeldung.com/introduction-to-json-schema-in-java<br>
+https://dzone.com/articles/structural-validation-of-json-response-using-rest<br>
+https://www.baeldung.com/rest-assured-json-schema<br>
+https://www.baeldung.com/jackson-compare-two-json-objects<br>
