@@ -1,5 +1,6 @@
 package org.json.assertion;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.json.assertion.exception.AssertionFailedError;
 import org.json.assertion.tree.ErrorList;
 import org.json.assertion.tree.ImportMap;
@@ -19,10 +20,15 @@ public class SchemaValidator {
         JsonInputTree inputTree = new JsonInputTree();
         JsonSchemaTree schemaTree = new JsonSchemaTree();
         matchCommon(schemaTree.getRoot(schema), inputTree.getRoot(input));
+
+        if(errorList.size() > 0) System.err.println("------------All Error found:-----------");
         for(Error e : errorList.getList()) {
             System.err.println(e.getMessage());
         }
-        throw errorList.get(0);
+        if(errorList.size() > 0) {
+            System.err.println("-----------First Error Thrown:------------");
+            throw errorList.get(0);
+        }
     }
 
     public void matchCommon(JTNode schema, JTNode input) {
@@ -131,7 +137,7 @@ public class SchemaValidator {
 
     private void matchDataType(JTDataType dataType, ArgInput input) {
         System.out.println(String.format("Schema Node: %s, Input Node: %s", dataType, input));
-        if(!dataType.getDataType().getNodeClass().equals(input.getInputChild().getClass())) {
+        if(!ArrayUtils.contains(dataType.getDataType().getNodeClasses(), input.getInputChild().getClass())) {
             //System.err.println("Mismatch found: Data type mismatch in data type declaration");
             errorList.add(new AssertionFailedError(
                     "Mismatch found: Data type mismatch in data type declaration"));

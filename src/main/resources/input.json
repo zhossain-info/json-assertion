@@ -3,11 +3,11 @@
     "testString" : "test string",
     "testFloat" : 100.56,
     "testDecimal" : 1.3489e500,
+    "testAnyTypeOfNumber" : 34.8923409,
     "testObject" : {
         "testInnerBoolean" : true,
         "testConcreteValue" : 5
     },
     "testFunction" : 5,
-    "wrongTest" : "using wrong data type in schema",
     "testArray" : [1, 2, 3]
 }

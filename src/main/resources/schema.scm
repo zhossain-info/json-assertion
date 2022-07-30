@@ -5,6 +5,7 @@ import org.json.assertion.lib.CoreFunction
     "testString" : #string,
     "testFloat" : #float,
     "testDecimal" : #decimal,
+    "testAnyTypeOfNumber" : #number,
     "testObject" : {
             "testInnerBoolean" : #boolean,
             "testConcreteValue" : 5,
@@ -12,6 +13,5 @@ import org.json.assertion.lib.CoreFunction
     },
     "testFunction" : @minMax(1, 10)#integer,
     "testOptional" : ?#integer,
-    "wrongTest" : #integer,
     "testArray" : [1, @minMax(1, 50), 3, @containsAt(0, 3, 2, 1)]
 }

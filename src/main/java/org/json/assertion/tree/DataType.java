@@ -17,6 +17,7 @@ public enum DataType {
     INTEGER("integer", JTInteger.class),
     FLOAT("float", JTFloat.class),
     DECIMAL("decimal", JTDecimal.class),
+    NUMBER("number", JTInteger.class, JTFloat.class, JTDecimal.class),
     BOOLEAN("boolean", JTBoolean.class),
     NULL("null", JTNull.class);
 
@@ -32,11 +33,11 @@ public enum DataType {
     private String name;
 
     @Getter
-    private Class<?> nodeClass;
+    private Class<?>[] nodeClasses;
 
-    private DataType(String name, Class<?> nodeClass) {
+    private DataType(String name, Class<?>... nodeClasses) {
         this.name = name;
-        this.nodeClass = nodeClass;
+        this.nodeClasses = nodeClasses;
     }
 
     public static DataType from(String string) {
