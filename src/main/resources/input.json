@@ -9,6 +9,6 @@
         "testExactValueMatch" : 5
     },
     "testFunction" : 5,
-    "testOptionalAvailable" : "Test String",
+    "testOptionalWhenInputAvailable" : "Test String",
     "testArray" : [1, 2, 3]
 }
