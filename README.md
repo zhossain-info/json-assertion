@@ -12,14 +12,16 @@ import org.json.assertion.lib.CoreFunction
     "testString" : #string,
     "testFloat" : #float,
     "testDecimal" : #decimal,
-    "testAnyTypeOfNumber" : #number,   // match with any types of number
+    "testAnyTypeOfNumber" : #number,
     "testObject" : {
             "testInnerBoolean" : #boolean,
-            "testConcreteValue" : 5, // match exact value
-            @containsKeys("testInnerBoolean", "testConcreteValue") // match all mandatory key
+            "testExactValueMatch" : 5,
+            @containsKeys("testInnerBoolean", "testExactValueMatch")
     },
     "testFunction" : @minMax(1, 10)#integer,
-    "testOptional" : ?#integer,      //optional key-value that can be skip in Json input
+    "testOptionalDataType" : ?#integer,
+    "testOptionalFunction" : ?@minMax(1, 10),
+    "testOptionalAvailable" : ?#string,
     "testArray" : [1, @minMax(1, 50), 3, @containsAt(0, 3, 2, 1)]
 }
 ```
@@ -35,11 +37,13 @@ import org.json.assertion.lib.CoreFunction
     "testAnyTypeOfNumber" : 34.8923409,
     "testObject" : {
         "testInnerBoolean" : true,
-        "testConcreteValue" : 5
+        "testExactValueMatch" : 5
     },
     "testFunction" : 5,
+    "testOptionalAvailable" : "Test String",
     "testArray" : [1, 2, 3]
 }
+
 ```
 
 
