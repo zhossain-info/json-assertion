@@ -1,0 +1,3 @@
+{
+    "testOptionalKey" : ?#integer
+}

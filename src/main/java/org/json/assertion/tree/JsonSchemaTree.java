@@ -11,11 +11,15 @@ import org.json.assertion.tree.nodes.JTRoot;
 
 public class JsonSchemaTree {
 
+    private SchemaContext schemaContext;
+    public JsonSchemaTree(SchemaContext schemaContext) {
+        this.schemaContext = schemaContext;
+    }
     public JTRoot getRoot(String input) {
         Lexer lexer = new JsonSchemaLexer(CharStreams.fromString(input));
         JsonSchemaParser parser = new JsonSchemaParser(new CommonTokenStream(lexer));
         ParseTree tree = parser.json();
-        JsonSchemaTreeBuilder treeBuilder = new JsonSchemaTreeBuilder();
+        JsonSchemaTreeBuilder treeBuilder = new JsonSchemaTreeBuilder(schemaContext);
         ParseTreeWalker walker = new ParseTreeWalker();
         walker.walk(treeBuilder, tree);
         return treeBuilder.getRoot();

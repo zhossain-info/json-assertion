@@ -12,10 +12,15 @@ public class JsonSchemaTreeBuilder extends JsonSchemaBaseListener {
     private JTRoot root;
     private Stack<JTNode> stack = new Stack<>();
 
+    private SchemaContext schemaContext;
+
+    public JsonSchemaTreeBuilder(SchemaContext schemaContext) {
+        this.schemaContext = schemaContext;
+    }
     @Override
     public void enterClassImport(JsonSchemaParser.ClassImportContext ctx) {
-        ImportMap importMap = ImportMap.getInstance();
-        importMap.addClass(ctx.CLASS_NAME().getText());
+        ImportFunction importFunction = schemaContext.getImportFunction();
+        importFunction.addClass(ctx.CLASS_NAME().getText());
     }
 
     @Override

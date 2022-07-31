@@ -18,8 +18,8 @@ public class JsonSchemaParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, IDENTIFIER=11, DATATYPE=12, CLASS_NAME=13, BOOLEAN=14, STRING=15, 
-		DECIMAL=16, FLOAT=17, INTEGER=18, OPTIONAL=19, NULL=20, WHITE_SPACE=21, 
+		T__9=10, DATATYPE=11, BOOLEAN=12, NULL=13, IDENTIFIER=14, CLASS_NAME=15, 
+		STRING=16, DECIMAL=17, FLOAT=18, INTEGER=19, OPTIONAL=20, WHITE_SPACE=21, 
 		MULTILINE_COMMENTS=22, LINE_COMMENTS=23;
 	public static final int
 		RULE_json = 0, RULE_classImport = 1, RULE_object = 2, RULE_keyValueFunction = 3, 
@@ -36,15 +36,15 @@ public class JsonSchemaParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'import'", "'{'", "','", "'}'", "':'", "'['", "']'", "'@'", "'('", 
-			"')'", null, null, null, null, null, null, null, null, "'?'", "'null'"
+			"')'", null, null, "'null'", null, null, null, null, null, null, "'?'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, "IDENTIFIER", 
-			"DATATYPE", "CLASS_NAME", "BOOLEAN", "STRING", "DECIMAL", "FLOAT", "INTEGER", 
-			"OPTIONAL", "NULL", "WHITE_SPACE", "MULTILINE_COMMENTS", "LINE_COMMENTS"
+			null, null, null, null, null, null, null, null, null, null, null, "DATATYPE", 
+			"BOOLEAN", "NULL", "IDENTIFIER", "CLASS_NAME", "STRING", "DECIMAL", "FLOAT", 
+			"INTEGER", "OPTIONAL", "WHITE_SPACE", "MULTILINE_COMMENTS", "LINE_COMMENTS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -432,7 +432,7 @@ public class JsonSchemaParser extends Parser {
 			setState(71);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__5) | (1L << T__7) | (1L << DATATYPE) | (1L << BOOLEAN) | (1L << STRING) | (1L << DECIMAL) | (1L << FLOAT) | (1L << INTEGER) | (1L << OPTIONAL) | (1L << NULL))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__5) | (1L << T__7) | (1L << DATATYPE) | (1L << BOOLEAN) | (1L << NULL) | (1L << STRING) | (1L << DECIMAL) | (1L << FLOAT) | (1L << INTEGER) | (1L << OPTIONAL))) != 0)) {
 				{
 				setState(63);
 				value();
@@ -514,11 +514,11 @@ public class JsonSchemaParser extends Parser {
 				}
 				break;
 			case BOOLEAN:
+			case NULL:
 			case STRING:
 			case DECIMAL:
 			case FLOAT:
 			case INTEGER:
-			case NULL:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(76);
@@ -689,7 +689,7 @@ public class JsonSchemaParser extends Parser {
 			setState(108);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__5) | (1L << T__7) | (1L << DATATYPE) | (1L << BOOLEAN) | (1L << STRING) | (1L << DECIMAL) | (1L << FLOAT) | (1L << INTEGER) | (1L << OPTIONAL) | (1L << NULL))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__5) | (1L << T__7) | (1L << DATATYPE) | (1L << BOOLEAN) | (1L << NULL) | (1L << STRING) | (1L << DECIMAL) | (1L << FLOAT) | (1L << INTEGER) | (1L << OPTIONAL))) != 0)) {
 				{
 				setState(100);
 				value();
@@ -951,7 +951,7 @@ public class JsonSchemaParser extends Parser {
 		"\u0000 \u001e\u0001\u0000\u0000\u0000 !\u0001\u0000\u0000\u0000!#\u0001"+
 		"\u0000\u0000\u0000\" \u0001\u0000\u0000\u0000#%\u0003\n\u0005\u0000$\u0019"+
 		"\u0001\u0000\u0000\u0000$ \u0001\u0000\u0000\u0000%\u0001\u0001\u0000"+
-		"\u0000\u0000&\'\u0005\u0001\u0000\u0000\'(\u0005\r\u0000\u0000(\u0003"+
+		"\u0000\u0000&\'\u0005\u0001\u0000\u0000\'(\u0005\u000f\u0000\u0000(\u0003"+
 		"\u0001\u0000\u0000\u0000)2\u0005\u0002\u0000\u0000*/\u0003\u0006\u0003"+
 		"\u0000+,\u0005\u0003\u0000\u0000,.\u0003\u0006\u0003\u0000-+\u0001\u0000"+
 		"\u0000\u0000.1\u0001\u0000\u0000\u0000/-\u0001\u0000\u0000\u0000/0\u0001"+
@@ -959,7 +959,7 @@ public class JsonSchemaParser extends Parser {
 		"2*\u0001\u0000\u0000\u000023\u0001\u0000\u0000\u000034\u0001\u0000\u0000"+
 		"\u000045\u0005\u0004\u0000\u00005\u0005\u0001\u0000\u0000\u000069\u0003"+
 		"\u0010\b\u000079\u0003\b\u0004\u000086\u0001\u0000\u0000\u000087\u0001"+
-		"\u0000\u0000\u00009\u0007\u0001\u0000\u0000\u0000:;\u0005\u000f\u0000"+
+		"\u0000\u0000\u00009\u0007\u0001\u0000\u0000\u0000:;\u0005\u0010\u0000"+
 		"\u0000;<\u0005\u0005\u0000\u0000<=\u0003\f\u0006\u0000=\t\u0001\u0000"+
 		"\u0000\u0000>G\u0005\u0006\u0000\u0000?D\u0003\f\u0006\u0000@A\u0005\u0003"+
 		"\u0000\u0000AC\u0003\f\u0006\u0000B@\u0001\u0000\u0000\u0000CF\u0001\u0000"+
@@ -969,27 +969,27 @@ public class JsonSchemaParser extends Parser {
 		"\u0000J\u000b\u0001\u0000\u0000\u0000KP\u0003\u000e\u0007\u0000LP\u0003"+
 		"\u0014\n\u0000MP\u0003\n\u0005\u0000NP\u0003\u0004\u0002\u0000OK\u0001"+
 		"\u0000\u0000\u0000OL\u0001\u0000\u0000\u0000OM\u0001\u0000\u0000\u0000"+
-		"ON\u0001\u0000\u0000\u0000P\r\u0001\u0000\u0000\u0000QS\u0005\u0013\u0000"+
+		"ON\u0001\u0000\u0000\u0000P\r\u0001\u0000\u0000\u0000QS\u0005\u0014\u0000"+
 		"\u0000RQ\u0001\u0000\u0000\u0000RS\u0001\u0000\u0000\u0000SU\u0001\u0000"+
 		"\u0000\u0000TV\u0003\u0010\b\u0000UT\u0001\u0000\u0000\u0000UV\u0001\u0000"+
-		"\u0000\u0000VW\u0001\u0000\u0000\u0000W`\u0003\u0012\t\u0000XZ\u0005\u0013"+
+		"\u0000\u0000VW\u0001\u0000\u0000\u0000W`\u0003\u0012\t\u0000XZ\u0005\u0014"+
 		"\u0000\u0000YX\u0001\u0000\u0000\u0000YZ\u0001\u0000\u0000\u0000Z[\u0001"+
 		"\u0000\u0000\u0000[]\u0003\u0010\b\u0000\\^\u0003\u0012\t\u0000]\\\u0001"+
 		"\u0000\u0000\u0000]^\u0001\u0000\u0000\u0000^`\u0001\u0000\u0000\u0000"+
 		"_R\u0001\u0000\u0000\u0000_Y\u0001\u0000\u0000\u0000`\u000f\u0001\u0000"+
-		"\u0000\u0000ab\u0005\b\u0000\u0000bc\u0005\u000b\u0000\u0000cl\u0005\t"+
+		"\u0000\u0000ab\u0005\b\u0000\u0000bc\u0005\u000e\u0000\u0000cl\u0005\t"+
 		"\u0000\u0000di\u0003\f\u0006\u0000ef\u0005\u0003\u0000\u0000fh\u0003\f"+
 		"\u0006\u0000ge\u0001\u0000\u0000\u0000hk\u0001\u0000\u0000\u0000ig\u0001"+
 		"\u0000\u0000\u0000ij\u0001\u0000\u0000\u0000jm\u0001\u0000\u0000\u0000"+
 		"ki\u0001\u0000\u0000\u0000ld\u0001\u0000\u0000\u0000lm\u0001\u0000\u0000"+
 		"\u0000mn\u0001\u0000\u0000\u0000no\u0005\n\u0000\u0000o\u0011\u0001\u0000"+
-		"\u0000\u0000pq\u0005\f\u0000\u0000q\u0013\u0001\u0000\u0000\u0000ry\u0005"+
-		"\u000e\u0000\u0000sy\u0005\u000f\u0000\u0000ty\u0005\u0012\u0000\u0000"+
-		"uy\u0005\u0011\u0000\u0000vy\u0005\u0010\u0000\u0000wy\u0005\u0014\u0000"+
-		"\u0000xr\u0001\u0000\u0000\u0000xs\u0001\u0000\u0000\u0000xt\u0001\u0000"+
-		"\u0000\u0000xu\u0001\u0000\u0000\u0000xv\u0001\u0000\u0000\u0000xw\u0001"+
-		"\u0000\u0000\u0000y\u0015\u0001\u0000\u0000\u0000\u0011\u0019 $/28DGO"+
-		"RUY]_ilx";
+		"\u0000\u0000pq\u0005\u000b\u0000\u0000q\u0013\u0001\u0000\u0000\u0000"+
+		"ry\u0005\f\u0000\u0000sy\u0005\u0010\u0000\u0000ty\u0005\u0013\u0000\u0000"+
+		"uy\u0005\u0012\u0000\u0000vy\u0005\u0011\u0000\u0000wy\u0005\r\u0000\u0000"+
+		"xr\u0001\u0000\u0000\u0000xs\u0001\u0000\u0000\u0000xt\u0001\u0000\u0000"+
+		"\u0000xu\u0001\u0000\u0000\u0000xv\u0001\u0000\u0000\u0000xw\u0001\u0000"+
+		"\u0000\u0000y\u0015\u0001\u0000\u0000\u0000\u0011\u0019 $/28DGORUY]_i"+
+		"lx";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

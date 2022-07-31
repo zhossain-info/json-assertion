@@ -48,12 +48,14 @@ primitive
     | NULL          # Null
     ;
 
-IDENTIFIER : NONDIGIT ( NONDIGIT | DIGIT )*;
+
 DATATYPE: '#' [a-z]+;
 
-CLASS_NAME : IDENTIFIER ('.' IDENTIFIER)*;
-
 BOOLEAN : 'true' | 'false';
+NULL : 'null';
+
+IDENTIFIER : NONDIGIT ( NONDIGIT | DIGIT )*;
+CLASS_NAME : IDENTIFIER ('.' IDENTIFIER)*;
 
 STRING : '"' (~["\\] | ESCAPE)* '"';
 fragment ESCAPE : '\\' ( ["\\/bfnrt]| UNICODE) ;
@@ -70,7 +72,6 @@ fragment DIGIT : [0-9];
 fragment NONDIGIT: [A-Za-z_];
 
 OPTIONAL : '?';
-NULL : 'null';
 
 WHITE_SPACE : [\r\n\t ]+ -> skip;
 

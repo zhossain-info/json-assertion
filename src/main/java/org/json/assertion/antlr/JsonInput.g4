@@ -46,6 +46,3 @@ fragment DIGIT : '0'..'9';
 NULL : 'null';
 
 WHITE_SPACE : [\r\n\t ]+ -> skip;
-
-MULTILINE_COMMENTS : '/*' .*? '*/' -> skip;
-LINE_COMMENTS : '//' ~('\r' | '\n')* -> skip;

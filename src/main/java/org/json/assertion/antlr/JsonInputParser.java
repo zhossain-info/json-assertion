@@ -18,8 +18,7 @@ public class JsonInputParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, BOOLEAN=7, STRING=8, DECIMAL=9, 
-		FLOAT=10, INTEGER=11, NULL=12, WHITE_SPACE=13, MULTILINE_COMMENTS=14, 
-		LINE_COMMENTS=15;
+		FLOAT=10, INTEGER=11, NULL=12, WHITE_SPACE=13;
 	public static final int
 		RULE_json = 0, RULE_object = 1, RULE_keyValue = 2, RULE_array = 3, RULE_value = 4, 
 		RULE_primitive = 5;
@@ -40,7 +39,7 @@ public class JsonInputParser extends Parser {
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, "BOOLEAN", "STRING", "DECIMAL", 
-			"FLOAT", "INTEGER", "NULL", "WHITE_SPACE", "MULTILINE_COMMENTS", "LINE_COMMENTS"
+			"FLOAT", "INTEGER", "NULL", "WHITE_SPACE"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -564,7 +563,7 @@ public class JsonInputParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u000f<\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\r<\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0001\u0000\u0001\u0000\u0003\u0000\u000f\b\u0000\u0001"+
 		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0005\u0001\u0015\b\u0001\n"+

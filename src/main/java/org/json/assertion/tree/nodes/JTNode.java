@@ -25,4 +25,14 @@ public abstract class JTNode {
     public JTNode getChild(int index) {
         return children.get(index);
     }
+
+    @Override
+    public String toString() {
+        if(parent != null) {
+            return String.format("%s(parent: %s)", getClass().getSimpleName(),
+                    parent.getClass().getSimpleName());
+        } else {
+            return String.format("%s(parent: null)", getClass().getSimpleName());
+        }
+    }
 }

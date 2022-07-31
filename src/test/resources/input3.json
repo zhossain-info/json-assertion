@@ -1,0 +1,10 @@
+{
+    "testBoolean" : true,
+    "testString" : "String Value",
+    "testArray" : [1, 2, 3],
+    "testObject" : {
+        "testInnerKey": "Test Inner Value"
+    },
+    "testAnyType" : {},
+    "testNull" : null
+}
