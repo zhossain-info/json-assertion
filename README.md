@@ -7,10 +7,15 @@
 ```
 import org.json.assertion.lib.CoreFunction
 
+/*
+There will be some details about this schema file 
+including version and modification date etc.
+*/
+
 {
     "testInteger" : #integer,
     "testString" : #string,
-    "testFloat" : #float,
+    "testFloat" : #float,           //this is a line comments
     "testDecimal" : #decimal,
     "testAnyTypeOfNumber" : #number,
     "testObject" : {
