@@ -34,7 +34,7 @@ validator
     ;
 
 function
-    : '@' IDENTIFIER '(' ( value (',' value)* )? ')';
+    : FUNCTION_IDENTIFIER '(' ( value (',' value)* )? ')';
 
 dataType
     : DATATYPE;
@@ -49,13 +49,13 @@ primitive
     ;
 
 
-DATATYPE: '#' [a-z]+;
-
 BOOLEAN : 'true' | 'false';
 NULL : 'null';
 
-IDENTIFIER : NONDIGIT ( NONDIGIT | DIGIT )*;
+DATATYPE: '#' [a-z]+;
+FUNCTION_IDENTIFIER : '@' IDENTIFIER;
 CLASS_NAME : IDENTIFIER ('.' IDENTIFIER)*;
+fragment IDENTIFIER : NONDIGIT ( NONDIGIT | DIGIT )*;
 
 STRING : '"' (~["\\] | ESCAPE)* '"';
 fragment ESCAPE : '\\' ( ["\\/bfnrt]| UNICODE) ;

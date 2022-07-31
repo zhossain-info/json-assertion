@@ -42,7 +42,8 @@ public class ImportFunction {
 
     public void invokeFunction(JTFunction function, TreeInput input) {
         try {
-            FunctionTuple tuple = functionMap.get(function.getName());
+            String functionName = function.getName().substring(1);
+            FunctionTuple tuple = functionMap.get(functionName);
             tuple.method.invoke(tuple.object, function, input);
         } catch (Exception e) {
             handleException(e);

@@ -54,14 +54,14 @@ public class SchemaValidatorTest {
     }
 
     @Test
-    void validate_OptionalKeyValueSkipped_validationSuccess() throws URISyntaxException, IOException {
+    void validate_OptionalKeyValueWithDataTypeSkipped_validationSuccess() throws URISyntaxException, IOException {
         String schema = TestUtils.loadResource("/schema6.scm");
         String input = TestUtils.loadResource("/input6.json");
         assertDoesNotThrow(() -> schemaValidator.validate(schema, input));
     }
 
     @Test
-    void validate_OptionalKeyValuePresent_validationSuccess() throws URISyntaxException, IOException {
+    void validate_OptionalKeyValueWithDataTypePresent_validationSuccess() throws URISyntaxException, IOException {
         String schema = TestUtils.loadResource("/schema7.scm");
         String input = TestUtils.loadResource("/input7.json");
         assertDoesNotThrow(() -> schemaValidator.validate(schema, input));
@@ -71,6 +71,20 @@ public class SchemaValidatorTest {
     void validate_ConcreteValueInSchema_validationSuccess() throws URISyntaxException, IOException {
         String schema = TestUtils.loadResource("/schema8.scm");
         String input = TestUtils.loadResource("/input8.json");
+        assertDoesNotThrow(() -> schemaValidator.validate(schema, input));
+    }
+
+    @Test
+    void validate_OptionalKeyValueWithFunctionSkipped_validationSuccess() throws URISyntaxException, IOException {
+        String schema = TestUtils.loadResource("/schema9.scm");
+        String input = TestUtils.loadResource("/input9.json");
+        assertDoesNotThrow(() -> schemaValidator.validate(schema, input));
+    }
+
+    @Test
+    void validate_OptionalKeyValueWithFunctionPresent_validationSuccess() throws URISyntaxException, IOException {
+        String schema = TestUtils.loadResource("/schema10.scm");
+        String input = TestUtils.loadResource("/input10.json");
         assertDoesNotThrow(() -> schemaValidator.validate(schema, input));
     }
 }

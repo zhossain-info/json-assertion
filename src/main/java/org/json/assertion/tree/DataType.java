@@ -6,16 +6,16 @@ import org.json.assertion.tree.nodes.*;
 import java.util.TreeMap;
 
 public enum DataType {
-    OBJECT("object", JTObject.class),
-    ARRAY("array", JTArray.class),
-    STRING("string", JTString.class),
-    INTEGER("integer", JTInteger.class),
-    FLOAT("float", JTFloat.class),
-    DECIMAL("decimal", JTDecimal.class),
-    BOOLEAN("boolean", JTBoolean.class),
-    NULL("null", JTNull.class),
-    NUMBER("number", JTInteger.class, JTFloat.class, JTDecimal.class),
-    ANY("any", JTObject.class, JTArray.class, JTString.class, JTInteger.class,
+    OBJECT("#object", JTObject.class),
+    ARRAY("#array", JTArray.class),
+    STRING("#string", JTString.class),
+    INTEGER("#integer", JTInteger.class),
+    FLOAT("#float", JTFloat.class),
+    DECIMAL("#decimal", JTDecimal.class),
+    BOOLEAN("#boolean", JTBoolean.class),
+    NULL("#null", JTNull.class),
+    NUMBER("#number", JTInteger.class, JTFloat.class, JTDecimal.class),
+    ANY("#any", JTObject.class, JTArray.class, JTString.class, JTInteger.class,
             JTFloat.class, JTDecimal.class, JTBoolean.class, JTNull.class);
 
 
@@ -39,7 +39,6 @@ public enum DataType {
     }
 
     public static DataType from(String string) {
-        if(string.startsWith("#")) string = string.substring(1);
         return dataTypeMap.get(string);
     }
 }
