@@ -8,7 +8,7 @@
 import org.json.assertion.lib.CoreFunction
 
 /*
-There will be some details about this schema file 
+There will be some details about this schema file
 including version and modification date etc.
 */
 
@@ -24,9 +24,9 @@ including version and modification date etc.
             @containsKeys("testInnerBoolean", "testExactValueMatch")
     },
     "testFunction" : @minMax(1, 10)#integer,
-    "testOptionalDataType" : ?#integer,
-    "testOptionalFunction" : ?@minMax(1, 10),
-    "testOptionalAvailable" : ?#string,
+    "testOptionalWithDataType" : ?#integer,
+    "testOptionalWithFunction" : ?@minMax(1, 10),
+    "testOptionalWhenInputAvailable" : ?#string,
     "testArray" : [1, @minMax(1, 50), 3, @containsAt(0, 3, 2, 1)]
 }
 ```
@@ -45,10 +45,9 @@ including version and modification date etc.
         "testExactValueMatch" : 5
     },
     "testFunction" : 5,
-    "testOptionalAvailable" : "Test String",
+    "testOptionalWhenInputAvailable" : "Test String",
     "testArray" : [1, 2, 3]
 }
-
 ```
 
 
