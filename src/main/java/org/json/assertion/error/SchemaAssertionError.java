@@ -1,4 +1,4 @@
-package org.json.assertion.exception;
+package org.json.assertion.error;
 
 public class AssertionFailedError extends AssertionError {
     public AssertionFailedError(String message) {
