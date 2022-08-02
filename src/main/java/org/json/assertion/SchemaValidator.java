@@ -1,5 +1,6 @@
 package org.json.assertion;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.assertion.error.SchemaAssertionError;
 import org.json.assertion.error.SchemaValidatorError;
@@ -9,6 +10,7 @@ import org.json.assertion.utils.TreeInput;
 
 import java.util.List;
 
+@Slf4j
 public class SchemaValidator {
 
     SchemaContext schemaContext;
@@ -29,6 +31,7 @@ public class SchemaValidator {
         try {
             JsonInputTree inputTree = new JsonInputTree(schemaContext.getErrorStack());
             JsonSchemaTree schemaTree = new JsonSchemaTree(schemaContext);
+            log.debug("SCHEMA TREE AND INPUT TREE NODE TRAVERSAL:");
             matchCommon(schemaTree.getRoot(schema), inputTree.getRoot(input));
             handleError();
         } catch(Exception e) {
@@ -38,20 +41,17 @@ public class SchemaValidator {
     }
 
     private void handleError() {
-        if (errorStack.size() > 0) System.err.println("All Validation Error Messages :");
+        if (errorStack.size() > 0) log.debug("ALL VALIDATION ERROR MESSAGES:");
         for (Throwable e : errorStack.getStack()) {
-            System.err.println(String.format("%s:%s", e.getClass().getSimpleName(), e.getMessage()));
-//            System.err.println(e.getMessage());
+            log.debug(String.format("%s:%s", e.getClass().getSimpleName(), e.getMessage()));
         }
         if (errorStack.size() > 0) {
-            System.err.println("-----------First Error Thrown:------------");
             throw errorStack.get(0);
         }
-        System.out.println("--------");
     }
 
     public void matchCommon(JTNode schema, JTNode input) {
-        System.out.println(String.format("Schema Node: %s, Input Node: %s", schema, input));
+        log.debug(String.format("Schema Node: %s, Input Node: %s", schema, input));
         if(schema instanceof  JTObject) {
             matchObject((JTObject) schema, input);
         } else if(schema instanceof JTArray) {
@@ -84,7 +84,7 @@ public class SchemaValidator {
     }
 
     private void matchKeyValue(JTKeyValue sKeyValue, JTNode input) {
-        System.out.println(String.format("Schema Node: %s, Input Node: %s", sKeyValue, input));
+        log.debug(String.format("Schema Node: %s, Input Node: %s", sKeyValue, input));
         JTString sKey = (JTString) sKeyValue.getChild(0);
         JTNode sValue = sKeyValue.getChild(1);
         JTKeyValue iKeyValue = ((JTObject) input).getKeyValue(sKey);
@@ -155,7 +155,7 @@ public class SchemaValidator {
     }
 
     private void matchDataType(JTDataType dataType, TreeInput input) {
-        System.out.println(String.format("Schema Node: %s, Input Node: %s", dataType, input));
+        log.debug(String.format("Schema Node: %s, Input Node: %s", dataType, input));
         if(!ArrayUtils.contains(dataType.getDataType().getNodeClasses(), input.getInputChild().getClass())) {
             //System.err.println("Mismatch found: Data type mismatch in data type declaration");
             errorStack.push(new SchemaAssertionError(
@@ -164,7 +164,7 @@ public class SchemaValidator {
     }
 
     private void matchFunction(JTFunction function, TreeInput input) {
-        System.out.println(String.format("Schema Node: %s, Input Node: %s", function, input));
+        log.debug(String.format("Schema Node: %s, Input Node: %s", function, input));
         importFunction.invokeFunction(function, input);
     }
 }
