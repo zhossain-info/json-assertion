@@ -1,13 +1,13 @@
 package org.json.assertion.tree;
 
 import lombok.Getter;
-import org.json.assertion.antlr.JsonSchemaBaseListener;
+import org.json.assertion.antlr.JsonSchemaParserBaseListener;
 import org.json.assertion.antlr.JsonSchemaParser;
 import org.json.assertion.tree.nodes.*;
 
 import java.util.Stack;
 
-public class JsonSchemaTreeBuilder extends JsonSchemaBaseListener {
+public class JsonSchemaTreeBuilder extends JsonSchemaParserBaseListener {
     @Getter
     private JTRoot root;
     private Stack<JTNode> stack = new Stack<>();

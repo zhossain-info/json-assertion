@@ -1,7 +1,7 @@
 package org.json.assertion.lib;
 
 import org.json.assertion.SchemaValidator;
-import org.json.assertion.exception.AssertionFailedError;
+import org.json.assertion.error.SchemaAssertionError;
 import org.json.assertion.tree.ErrorStack;
 import org.json.assertion.tree.SchemaContext;
 import org.json.assertion.tree.nodes.*;
@@ -29,7 +29,7 @@ public class CoreFunction {
 
         if (arg1 > arg3 || arg2 < arg3) {
             //System.err.println("Mismatch found: Value outside of given range");
-            errorStack.push(new AssertionFailedError("Mismatch found: Value outside of given range"));
+            errorStack.push(new SchemaAssertionError("Mismatch found: Value outside of given range"));
         }
     }
 
@@ -46,7 +46,7 @@ public class CoreFunction {
             else errorStack.clear(size);
         }
         //System.err.println("no alternative match with input in containsAt");
-        errorStack.push(new AssertionFailedError("no alternative match with input in containsAt"));
+        errorStack.push(new SchemaAssertionError("no alternative match with input in containsAt"));
     }
 
     public void containsKeys(JTFunction function, TreeInput input) {
@@ -55,7 +55,7 @@ public class CoreFunction {
         List<JTString> keys = object.getKeys();
         for (JTNode n : arguments) {
             if(!keys.contains(n)) {
-                errorStack.push(new AssertionFailedError(((JTString) n).getText()
+                errorStack.push(new SchemaAssertionError(((JTString) n).getText()
                         + " not found in containsKey"));
             }
         }

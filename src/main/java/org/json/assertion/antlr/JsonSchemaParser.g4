@@ -1,14 +1,16 @@
-grammar JsonSchema;
+parser grammar JsonSchemaParser;
+
+options { tokenVocab=JsonSchemaLexer; }
 
 json
     : classImport* object
     | classImport* array;
 
 classImport
-    : 'import' CLASS_NAME;
+    : IMPORT CLASS_NAME;
 
 object
-    : '{' (keyValueFunction (',' keyValueFunction)* )? '}';
+    : LBRACE (keyValueFunction (COMMA keyValueFunction)* )? RBRACE;
 
 keyValueFunction
     : function
@@ -16,10 +18,10 @@ keyValueFunction
     ;
 
 keyValue
-    : STRING ':' value;
+    : STRING COLON value;
 
 array
-    : '[' (value (',' value)* )? ']';
+    : LBRACKET (value (COMMA value)* )? RBRACKET;
 
 value
     : validator
@@ -34,7 +36,7 @@ validator
     ;
 
 function
-    : FUNCTION_IDENTIFIER '(' ( value (',' value)* )? ')';
+    : FUNCTION_IDENTIFIER LPAREN ( value (COMMA value)* )? RPAREN;
 
 dataType
     : DATATYPE;
@@ -47,7 +49,5 @@ primitive
     | DECIMAL       # Decimal
     | NULL          # Null
     ;
-
-
 
 

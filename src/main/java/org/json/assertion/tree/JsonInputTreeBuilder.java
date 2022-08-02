@@ -1,13 +1,13 @@
 package org.json.assertion.tree;
 
 import lombok.Getter;
-import org.json.assertion.antlr.JsonInputBaseListener;
+import org.json.assertion.antlr.JsonInputParserBaseListener;
 import org.json.assertion.antlr.JsonInputParser;
 import org.json.assertion.tree.nodes.*;
 
 import java.util.Stack;
 
-public class JsonInputTreeBuilder extends JsonInputBaseListener {
+public class JsonInputTreeBuilder extends JsonInputParserBaseListener {
 
     @Getter
     private JTRoot root;

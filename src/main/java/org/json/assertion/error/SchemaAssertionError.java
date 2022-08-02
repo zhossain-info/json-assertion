@@ -1,11 +1,11 @@
 package org.json.assertion.error;
 
-public class AssertionFailedError extends AssertionError {
-    public AssertionFailedError(String message) {
+public class SchemaAssertionError extends AssertionError {
+    public SchemaAssertionError(String message) {
         super(message, null);
     }
 
-    public AssertionFailedError(String message, Throwable cause) {
+    public SchemaAssertionError(String message, Throwable cause) {
         super(message, cause);
     }
 }

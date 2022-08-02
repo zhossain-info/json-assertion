@@ -1,6 +1,4 @@
-package org.json.assertion.exception;
-
-import org.antlr.v4.runtime.ParserRuleContext;
+package org.json.assertion.error;
 
 public class InvalidContextError extends Error {
 

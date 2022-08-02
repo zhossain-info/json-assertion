@@ -2,7 +2,7 @@ package org.json.assertion.tree;
 
 
 import lombok.AllArgsConstructor;
-import org.json.assertion.exception.InvalidContextError;
+import org.json.assertion.error.InvalidContextError;
 import org.json.assertion.tree.nodes.JTFunction;
 import org.json.assertion.utils.TreeInput;
 

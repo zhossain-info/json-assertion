@@ -1,7 +1,8 @@
 package org.json.assertion;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.json.assertion.exception.AssertionFailedError;
+import org.json.assertion.error.SchemaAssertionError;
+import org.json.assertion.error.SchemaValidatorError;
 import org.json.assertion.tree.*;
 import org.json.assertion.tree.nodes.*;
 import org.json.assertion.utils.TreeInput;
@@ -20,16 +21,29 @@ public class SchemaValidator {
         this.importFunction = schemaContext.getImportFunction();
     }
 
-    public void validate(String schema, String input) {
-        JsonInputTree inputTree = new JsonInputTree();
-        JsonSchemaTree schemaTree = new JsonSchemaTree(schemaContext);
-        matchCommon(schemaTree.getRoot(schema), inputTree.getRoot(input));
+    public void assertSchema(String inputSchema, String inputJson) {
+        validate(inputSchema, inputJson);
+    }
 
-        if(errorStack.size() > 0) System.err.println("------------All Error found:-----------");
-        for(Error e : errorStack.getStack()) {
-            System.err.println(e.getMessage());
+    public void validate(String schema, String input) {
+        try {
+            JsonInputTree inputTree = new JsonInputTree(schemaContext.getErrorStack());
+            JsonSchemaTree schemaTree = new JsonSchemaTree(schemaContext);
+            matchCommon(schemaTree.getRoot(schema), inputTree.getRoot(input));
+            handleError();
+        } catch(Exception e) {
+            errorStack.push(new SchemaValidatorError(e.getMessage(), e));
+            handleError();
         }
-        if(errorStack.size() > 0) {
+    }
+
+    private void handleError() {
+        if (errorStack.size() > 0) System.err.println("All Validation Error Messages :");
+        for (Throwable e : errorStack.getStack()) {
+            System.err.println(String.format("%s:%s", e.getClass().getSimpleName(), e.getMessage()));
+//            System.err.println(e.getMessage());
+        }
+        if (errorStack.size() > 0) {
             System.err.println("-----------First Error Thrown:------------");
             throw errorStack.get(0);
         }
@@ -54,7 +68,7 @@ public class SchemaValidator {
     private void matchArray(JTArray sArray, JTNode iNode) {
         if(!sArray.getClass().equals(iNode.getClass())) {
             //System.err.println("Mismatch found: Data type mismatch in internal node");
-            errorStack.push(new AssertionFailedError(
+            errorStack.push(new SchemaAssertionError(
                     "Mismatch found: Data type mismatch in internal node"));
         }
         List<JTNode> sChildren = sArray.getChildren();
@@ -79,7 +93,7 @@ public class SchemaValidator {
         }
         if(iKeyValue == null) {
             //System.err.println("mandatory key-value not found");
-            errorStack.push(new AssertionFailedError("mandatory key-value not found"));
+            errorStack.push(new SchemaAssertionError("mandatory key-value not found"));
             return;
         }
         List<JTNode> children = sKeyValue.getChildren();
@@ -100,12 +114,12 @@ public class SchemaValidator {
         //System.out.println(String.format("Schema Node: %s, Input Node: %s", schema, input));
         if(!schema.getClass().equals(input.getClass())) {
             //System.err.println("Mismatch found: Data type mismatch in leaf node");
-            errorStack.push(new AssertionFailedError(
+            errorStack.push(new SchemaAssertionError(
                     "Mismatch found: Data type mismatch in leaf node"));
         }
         if(!schema.getText().equals(input.getText())) {
             //System.err.println("Mismatch found: Value mismatch in leaf node");
-            errorStack.push(new AssertionFailedError(
+            errorStack.push(new SchemaAssertionError(
                     "Mismatch found: Value mismatch in leaf node"));
         }
     }
@@ -113,7 +127,7 @@ public class SchemaValidator {
     private void matchObject(JTObject sObject, JTNode iNode) {
         if(!sObject.getClass().equals(iNode.getClass())) {
             //System.err.println("Mismatch found: Data type mismatch in internal node");
-            errorStack.push(new AssertionFailedError(
+            errorStack.push(new SchemaAssertionError(
                     "Mismatch found: Data type mismatch in internal node"));
         }
         List<JTNode> sChildren = sObject.getChildren();
@@ -130,7 +144,7 @@ public class SchemaValidator {
     private void matchInternal(JTNode schema, JTNode input) {
         if(!schema.getClass().equals(input.getClass())) {
             //System.err.println("Mismatch found: Data type mismatch in internal node");
-            errorStack.push(new AssertionFailedError(
+            errorStack.push(new SchemaAssertionError(
                     "Mismatch found: Data type mismatch in internal node"));
         }
         List<JTNode> schemaChildren = schema.getChildren();
@@ -144,7 +158,7 @@ public class SchemaValidator {
         System.out.println(String.format("Schema Node: %s, Input Node: %s", dataType, input));
         if(!ArrayUtils.contains(dataType.getDataType().getNodeClasses(), input.getInputChild().getClass())) {
             //System.err.println("Mismatch found: Data type mismatch in data type declaration");
-            errorStack.push(new AssertionFailedError(
+            errorStack.push(new SchemaAssertionError(
                     "Mismatch found: Data type mismatch in data type declaration"));
         }
     }

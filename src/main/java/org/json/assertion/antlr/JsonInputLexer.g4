@@ -1,34 +1,4 @@
-grammar JsonInput;
-
-json
-    : object
-    | array;
-
-object
-    : '{' (keyValue (',' keyValue)* )? '}';
-
-keyValue
-    : STRING ':' value;
-
-array
-    : '[' (value (',' value)* )? ']';
-
-value
-    : primitive
-    | array
-    | object
-    ;
-
-primitive
-    : BOOLEAN       # Boolean
-    | STRING        # String
-    | INTEGER       # Integer
-    | FLOAT         # Float
-    | DECIMAL       # Decimal
-    | NULL          # Null
-    ;
-
-BOOLEAN : 'true' | 'false';
+lexer grammar JsonInputLexer;
 
 STRING : '"' (~["\\] | ESCAPE)* '"';
 fragment ESCAPE : '\\' ( ["\\/bfnrt]| UNICODE) ;
@@ -43,6 +13,14 @@ fragment EXPONENT : [eE] [+\-]? INTDIGIT+;
 fragment INTDIGIT : '0' | '1'..'9' DIGIT*;
 fragment DIGIT : '0'..'9';
 
+BOOLEAN : 'true' | 'false';
 NULL : 'null';
+
+LBRACKET : '[';
+RBRACKET : ']';
+LBRACE : '{';
+RBRACE : '}';
+COMMA : ',';
+COLON : ':';
 
 WHITE_SPACE : [\r\n\t ]+ -> skip;
