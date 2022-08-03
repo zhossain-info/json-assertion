@@ -2,7 +2,7 @@
 
 **A JSON validator based on a compact, user-friendly and extensible schema**
 
-A JSON parser and JSON-Schema parser build with ANTLR 4 which create AST for both input JSON and schema grammar. Using the ASTs, this library validates input JSON against schema grammar. This tools can easily be extended by adding Java classes like **CoreFunction** and import in schema.
+A JSON parser and JSON Schema parser build with ANTLR 4 which create AST for both input JSON and schema grammar. Using these ASTs, this library validates input JSON against schema grammar. Unlike other frameworks and libraries, this library can easily be extended by adding new Java classes like **CoreFunction** and import it in schema. This allow complex validation logic written in Java language and thus schema syntaxes are very simple and concise. Moreover, ANTLR 4 schema grammar makes it easy to customize existing syntax and introduce new syntax.
 
 ### Schema Input:
 
@@ -62,16 +62,24 @@ including version and modification date etc.
 ```
 
 
-minMax(minimum number inclusive, maximum number inclusive)
-check the element on the position is in range thus its position need to be inside array bound.
+@minMax(minimum number inclusive, maximum number inclusive)
+check the element on the position is in range thus its position need to be valid (eg. inside array bound or existing key)
 
-containsAt(index of array element, alternative values that match against the array elements ...)
-It applies on the parent array to fetch the index thus its position in array need not to be inside array bound
+@containsAt(index of array element, alternative values that match against the array elements ...)
+It applies on the parent array node to fetch the index thus its position in array need not to be inside array bound
 
-containsKeys(mandatory keys...)
+@containsKeys(mandatory keys...)
 It applies on the parent object to search mandatory keys. Thrown error if missing any of the keys
 
+@arrLenMinMax(minimum number inclusive, maximum number inclusive)
+It applies on the parent array node and check the array size in between minimum and maximum
+
+@strLenMinMax(minimum number inclusive, maximum number inclusive)
+check the string on the position has length in range thus its position need to be valid (eg. inside array bound or existing key)
+
 ### See Also
+https://github.com/karatelabs/karate<br>
+https://json-schema.org/<br>
 https://www.baeldung.com/introduction-to-json-schema-in-java<br>
 https://dzone.com/articles/structural-validation-of-json-response-using-rest<br>
 https://www.baeldung.com/rest-assured-json-schema<br>
