@@ -2,6 +2,7 @@ package org.json.assertion.tree.nodes;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.json.assertion.utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +29,6 @@ public abstract class JTNode {
 
     @Override
     public String toString() {
-        if(parent != null) {
-            return String.format("%s(parent: %s)", getClass().getSimpleName(),
-                    parent.getClass().getSimpleName());
-        } else {
-            return String.format("%s(parent: null)", getClass().getSimpleName());
-        }
+        return Utilities.toString(this);
     }
 }

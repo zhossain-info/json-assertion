@@ -4,7 +4,7 @@ package org.json.assertion.tree;
 import lombok.AllArgsConstructor;
 import org.json.assertion.error.InvalidContextError;
 import org.json.assertion.tree.nodes.JTFunction;
-import org.json.assertion.utils.TreeInput;
+import org.json.assertion.utils.JsonScope;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -40,7 +40,7 @@ public class ImportFunction {
         }
     }
 
-    public void invokeFunction(JTFunction function, TreeInput input) {
+    public void invokeFunction(JTFunction function, JsonScope input) {
         try {
             String functionName = function.getName().substring(1);
             FunctionTuple tuple = functionMap.get(functionName);
