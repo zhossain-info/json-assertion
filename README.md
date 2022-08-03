@@ -20,16 +20,20 @@ including version and modification date etc.
     "testFloat" : #float,           //this is a line comments
     "testDecimal" : #decimal,
     "testAnyTypeOfNumber" : #number,
+    "testMinimum" : @min(10.50)#float,
+    "testMaximum" : @max(1000)#integer,
     "testObject" : {
             "testInnerBoolean" : #boolean,
             "testExactValueMatch" : 5,
             @containsKeys("testInnerBoolean", "testExactValueMatch")
     },
-    "testFunction" : @minMax(1, 10)#integer,
+    "testMinMaxFunction" : @minMax(1, 10)#integer,
     "testOptionalWithDataType" : ?#integer,
     "testOptionalWithFunction" : ?@minMax(1, 10),
     "testOptionalWhenInputAvailable" : ?#string,
-    "testArray" : [1, @minMax(1, 50), 3, @containsAt(0, 3, 2, 1)]
+    "testArray" : [1, @minMax(1, 50), 3, @containsAt(0, 3, 2, 1)],
+    "testRegex" : @regex("[a-z0-9]+@[a-z]+.com")#string,
+    "testStringLength" : @strLenMinMax(5, 15)
 }
 ```
 
@@ -42,14 +46,19 @@ including version and modification date etc.
     "testFloat" : 100.56,
     "testDecimal" : 1.3489e500,
     "testAnyTypeOfNumber" : 34.8923409,
+    "testMinimum" : 10.88,
+    "testMaximum" : 100,
     "testObject" : {
         "testInnerBoolean" : true,
         "testExactValueMatch" : 5
     },
-    "testFunction" : 5,
+    "testMinMaxFunction" : 5,
     "testOptionalWhenInputAvailable" : "Test String",
-    "testArray" : [1, 2, 3]
+    "testArray" : [1, 2, 3],
+    "testRegex" : "example1971@email.com",
+    "testStringLength" : "StringLength"
 }
+
 ```
 
 
