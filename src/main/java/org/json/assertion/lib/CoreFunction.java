@@ -91,4 +91,13 @@ public class CoreFunction {
             errorStack.push(new SchemaAssertionError("Length outside of given range"));
         }
     }
+
+    public void arrLenMinMax(JTFunction function, JsonScope json) {
+        int arg1 = (int) ((JTInteger) function.getArgument(0)).getValue();
+        int arg2 = (int) ((JTInteger) function.getArgument(1)).getValue();
+        int length = ((JTArray) json.getParent()).getChildren().size();
+        if(arg1 > length || arg2 < length) {
+            errorStack.push(new SchemaAssertionError("Length outside of given range"));
+        }
+    }
 }

@@ -14,5 +14,5 @@
     "testOptionalWhenInputAvailable" : "Test String",
     "testArray" : [1, 2, 3],
     "testRegex" : "example1971@email.com",
-    "testStringLength" : "12345678"
+    "testStringLength" : "StringLength"
 }

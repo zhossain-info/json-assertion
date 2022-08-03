@@ -22,7 +22,8 @@ including version and modification date etc.
     "testOptionalWithDataType" : ?#integer,
     "testOptionalWithFunction" : ?@minMax(1, 10),
     "testOptionalWhenInputAvailable" : ?#string,
-    "testArray" : [1, @minMax(1, 50), 3, @containsAt(0, 3, 2, 1)],
+    "testArray" : [1, @minMax(1, 50), 3, @containsAt(0, 3, 2, 1),
+                      @arrLenMinMax(2, 5)],
     "testRegex" : @regex("[a-z0-9]+@[a-z]+.com")#string,
-    "testStringLength" : @strLenMinMax(3, 10)
+    "testStringLength" : @strLenMinMax(5, 15)
 }
