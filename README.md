@@ -1,6 +1,8 @@
 # JSON Assertion Schema
 
-**A JSON validator based on simplified and extensible schema.** A JSON parser and JSON-Schema parser build with ANTLR 4 which create AST for both input JSON and schema grammar. Using the ASTs, this tools validates input JSON against schema grammar. This tools can easily be extended by adding Java classes like *CoreFunction* and import in schema.
+**A JSON validator based on a compact, user-friendly and extensible schema**
+
+A JSON parser and JSON-Schema parser build with ANTLR 4 which create AST for both input JSON and schema grammar. Using the ASTs, this library validates input JSON against schema grammar. This tools can easily be extended by adding Java classes like **CoreFunction** and import in schema.
 
 ### Schema Input:
 
