@@ -40,13 +40,7 @@ public class TreeInput {
 
     @Override
     public String toString() {
-        if(child != null) {
-            return String.format("%s(parent: %s)", child.getClass().getSimpleName(),
-                    child.getParent().getClass().getSimpleName());
-        } else {
-            return String.format("%s(parent: %s)", parent.getClass().getSimpleName(),
-                    parent.getParent().getClass().getSimpleName());
-        }
-
+        if(child != null) return Utils.toString(child);
+        else return Utils.toString(parent);
     }
 }
