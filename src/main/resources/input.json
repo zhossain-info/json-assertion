@@ -4,11 +4,15 @@
     "testFloat" : 100.56,
     "testDecimal" : 1.3489e500,
     "testAnyTypeOfNumber" : 34.8923409,
+    "testMinimum" : 10.88,
+    "testMaximum" : 100,
     "testObject" : {
         "testInnerBoolean" : true,
         "testExactValueMatch" : 5
     },
-    "testFunction" : 5,
+    "testMinMaxFunction" : 5,
     "testOptionalWhenInputAvailable" : "Test String",
-    "testArray" : [1, 2, 3]
+    "testArray" : [1, 2, 3],
+    "testRegex" : "example1971@email.com",
+    "testStringLength" : "12345678"
 }

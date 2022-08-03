@@ -1,6 +1,6 @@
 package org.json.assertion.tree.nodes;
 
-public class JTFloat extends JTLeafNode {
+public class JTFloat extends JTNumber {
 
     private double value;
 
@@ -12,5 +12,10 @@ public class JTFloat extends JTLeafNode {
     @Override
     public String getText() {
         return String.valueOf(value);
+    }
+
+    @Override
+    public double doubleValue() {
+        return value;
     }
 }

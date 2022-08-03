@@ -29,6 +29,8 @@ public class SchemaValidator {
 
     public void validate(String schema, String json) {
         try {
+            errorStack.clear();
+            importFunction.clear();
             JsonInputTree inputTree = new JsonInputTree(errorStack);
             JsonSchemaTree schemaTree = new JsonSchemaTree(schemaContext);
             log.debug("SCHEMA TREE AND INPUT TREE NODE TRAVERSAL:");

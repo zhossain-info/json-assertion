@@ -1,6 +1,6 @@
 package org.json.assertion.tree.nodes;
 
-public class JTDecimal extends JTLeafNode {
+public class JTDecimal extends JTNumber {
 
     private double value;
 
@@ -12,5 +12,10 @@ public class JTDecimal extends JTLeafNode {
     @Override
     public String getText() {
         return String.valueOf(value);
+    }
+
+    @Override
+    public double doubleValue() {
+        return value;
     }
 }

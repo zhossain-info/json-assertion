@@ -19,4 +19,9 @@ public class JTFunction extends JTNode {
         JTArgument argument = (JTArgument) getChild(0);
         return argument.getChildren();
     }
+
+    public JTNode getArgument(int index) {
+        JTArgument argument = (JTArgument) getChild(0);
+        return argument.getChildren().get(index);
+    }
 }

@@ -11,14 +11,18 @@ including version and modification date etc.
     "testFloat" : #float,           //this is a line comments
     "testDecimal" : #decimal,
     "testAnyTypeOfNumber" : #number,
+    "testMinimum" : @min(10.50)#float,
+    "testMaximum" : @max(1000)#integer,
     "testObject" : {
             "testInnerBoolean" : #boolean,
             "testExactValueMatch" : 5,
             @containsKeys("testInnerBoolean", "testExactValueMatch")
     },
-    "testFunction" : @minMax(1, 10)#integer,
+    "testMinMaxFunction" : @minMax(1, 10)#integer,
     "testOptionalWithDataType" : ?#integer,
     "testOptionalWithFunction" : ?@minMax(1, 10),
     "testOptionalWhenInputAvailable" : ?#string,
-    "testArray" : [1, @minMax(1, 50), 3, @containsAt(0, 3, 2, 1)]
+    "testArray" : [1, @minMax(1, 50), 3, @containsAt(0, 3, 2, 1)],
+    "testRegex" : @regex("[a-z0-9]+@[a-z]+.com")#string,
+    "testStringLength" : @strLenMinMax(3, 10)
 }
