@@ -12,7 +12,7 @@
     },
     "testMinmaxFunction" : 5,
     "testOptionalWhenInputAvailable" : "Test String",
-    "testArray" : [1, 2, 3],
+    "testArray" : [10, 20, 30],
     "testRegex" : "example1971@email.com",
     "testStringLength" : "StringLength"
 }

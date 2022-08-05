@@ -37,8 +37,8 @@ including version and modification date etc.
     "testOptionalWithDataType" : ?#integer,
     "testOptionalWithFunction" : ?@intMinmax(1, 10),
     "testOptionalWhenInputAvailable" : ?#string,
-    "testArray" : [1, @intMinmax(1, 50), 3, @arrContainsAt(0, 3, 2, 1),
-                      @arrElementOf(3, 0, 1, 2), @arrlenMinmax(2, 5)],
+    "testArray" : [10, @intMinmax(10, 20), 30, @arrContainsAt(0, 30, 20, 10),
+                      @arrElementOf(30, 0, 1, 2), @arrlenMinmax(2, 5)],
     "testRegex" : @regex("[a-z0-9]+@[a-z]+.com")#string,
     "testStringLength" : @strlenMinmax(5, 15)
 }
@@ -61,7 +61,7 @@ including version and modification date etc.
     },
     "testMinmaxFunction" : 5,
     "testOptionalWhenInputAvailable" : "Test String",
-    "testArray" : [1, 2, 3],
+    "testArray" : [10, 20, 30],
     "testRegex" : "example1971@email.com",
     "testStringLength" : "StringLength"
 }
@@ -80,7 +80,7 @@ Validates the integer element is in integer range (inclusive)
 Validates the number element is in float or decimal precision range (inclusive)
 
 `@arrContainsAt(index, alternatives...) Scope: Parent`  
-Validates that one alternative is matched with the array element on index
+Validates that one alternative values is matched with the array element on index
 
 `@arrElementOf(element, alternatives...) Scope: Parent`  
 Validates that the element is matched with one of alternative indexes of array
