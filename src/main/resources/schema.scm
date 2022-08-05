@@ -23,7 +23,8 @@ including version and modification date etc.
     "testOptionalWithFunction" : ?@intMinmax(1, 10),
     "testOptionalWhenInputAvailable" : ?#string,
     "testArray" : [10, @intMinmax(10, 20), 30, @arrContainsAt(0, 30, 20, 10),
-                      @arrElementOf(30, 0, 1, 2), @arrlenMinmax(2, 5)],
+                      @arrElementOf(30, 0, 1, 2), @arrlenMinmax(2, 5),
+                      @arrContainsElement(10, 20)],
     "testRegex" : @regex("[a-z0-9]+@[a-z]+.com")#string,
     "testStringLength" : @strlenMinmax(5, 15)
 }

@@ -20,7 +20,7 @@ public class SchemaValidator {
     ImportFunction importFunction;
 
     public SchemaValidator() {
-        this.schemaContext = new SchemaContext();
+        this.schemaContext = new SchemaContext(this);
         this.errorStack = schemaContext.getErrorStack();
         this.importFunction = schemaContext.getImportFunction();
     }

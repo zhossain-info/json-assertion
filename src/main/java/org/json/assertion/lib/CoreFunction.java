@@ -15,9 +15,9 @@ public class CoreFunction {
     private SchemaValidator validator;
     private ErrorStack errorStack;
 
-    public CoreFunction(ErrorStack errorStack) {
-        this.validator = new SchemaValidator();
-        this.errorStack = errorStack;
+    public CoreFunction(SchemaContext schemaContext) {
+        this.validator = schemaContext.getSchemaValidator();
+        this.errorStack = schemaContext.getErrorStack();
     }
 
     public void numMinmax(JTFunction function, JsonScope json) {
@@ -47,9 +47,7 @@ public class CoreFunction {
         JTNode parent = json.getParent();
         JTNode node = parent.getChild(arg1);
         for (JTNode n : args) {
-            validator.reset();
-            validator.matchCommon(n, node);
-            if (validator.getErrorStack().size() == 0) return;
+            if(matchCommon(n, node)) return;
         }
         errorStack.push(new SchemaAssertionError("No alternative match with input in the position"));
     }
@@ -61,9 +59,7 @@ public class CoreFunction {
         List<JTNode> jChildren = json.getParent().getChildren();
         for (JTNode n : args) {
             JTNode jChild = jChildren.get(((JTInteger) n).intValue());
-            validator.reset();
-            validator.matchCommon(arg1, jChild);
-            if (validator.getErrorStack().size() == 0) return;
+            if(matchCommon(arg1, jChild)) return;
         }
         errorStack.push(new SchemaAssertionError("Element does not match with alternatives"));
     }
@@ -78,6 +74,25 @@ public class CoreFunction {
                         + " not found in containsKey"));
             }
         }
+    }
+
+    public void arrContainsElement(JTFunction function, JsonScope json) {
+        List<JTNode> arguments = function.getArguments();
+        JTArray array = (JTArray) json.getParent();
+        List<JTNode> elements = array.getChildren();
+        for (JTNode n : arguments) {
+            if(!contains(n, elements)) errorStack.push(new SchemaAssertionError(n.toString()
+                    + " not found in array element"));
+        }
+    }
+
+    private boolean contains(JTNode n, List<JTNode> elements) {
+        for(JTNode e : elements) {
+            if(matchCommon(n, e)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void regex(JTFunction function, JsonScope json) {
@@ -105,5 +120,13 @@ public class CoreFunction {
         if(arg1 > length || arg2 < length) {
             errorStack.push(new SchemaAssertionError("Length outside of given range"));
         }
+    }
+
+    private boolean matchCommon(JTNode schema, JTNode json) {
+        int mark = errorStack.size();
+        validator.matchCommon(schema, json);
+        if(errorStack.size() == mark) return true;
+        errorStack.clear(mark);
+        return false;
     }
 }
