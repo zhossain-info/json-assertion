@@ -26,7 +26,9 @@ public class CoreFunction {
         double arg3 = ((JTNumber) json.getNode()).doubleValue();
 
         if (arg1 > arg3 || arg2 < arg3) {
-            errorStack.push(new SchemaAssertionError("Value outside of given range"));
+            errorStack.push(new SchemaAssertionError("Value outside of given range",
+                    String.format("[%d, %d]", arg1, arg2),
+                    String.valueOf(arg3)));
         }
     }
 
@@ -36,7 +38,9 @@ public class CoreFunction {
         double arg3 = ((JTInteger) json.getNode()).longValue();
 
         if (arg1 > arg3 || arg2 < arg3) {
-            errorStack.push(new SchemaAssertionError("Value outside of given range"));
+            errorStack.push(new SchemaAssertionError("Value outside of given range",
+                    String.format("[%d, %d]", arg1, arg2),
+                    String.valueOf(arg3)));
         }
     }
 
@@ -49,7 +53,8 @@ public class CoreFunction {
         for (JTNode n : args) {
             if(matchCommon(n, node)) return;
         }
-        errorStack.push(new SchemaAssertionError("No alternative match with input in the position"));
+        errorStack.push(new SchemaAssertionError("No alternative match with the element of index",
+                        args.toString(), node.toString()));
     }
 
     public void arrElementOf(JTFunction function, JsonScope json) {
@@ -61,7 +66,8 @@ public class CoreFunction {
             JTNode jChild = jChildren.get(((JTInteger) n).intValue());
             if(matchCommon(arg1, jChild)) return;
         }
-        errorStack.push(new SchemaAssertionError("Element does not match with alternatives"));
+        errorStack.push(new SchemaAssertionError("Element does not match with any alternatives",
+                        arg1.toString(), jChildren.toString()));
     }
 
     public void objContainsKeys(JTFunction function, JsonScope json) {
@@ -70,8 +76,8 @@ public class CoreFunction {
         List<JTString> keys = object.getKeys();
         for (JTNode n : arguments) {
             if(!keys.contains(n)) {
-                errorStack.push(new SchemaAssertionError(((JTString) n).getText()
-                        + " not found in containsKey"));
+                errorStack.push(new SchemaAssertionError("Mandatory key not found",
+                        ((JTString) n).getText(), null));
             }
         }
     }
@@ -81,8 +87,9 @@ public class CoreFunction {
         JTArray array = (JTArray) json.getParent();
         List<JTNode> elements = array.getChildren();
         for (JTNode n : arguments) {
-            if(!contains(n, elements)) errorStack.push(new SchemaAssertionError(n.toString()
-                    + " not found in array element"));
+            if(!contains(n, elements)) errorStack.push(new SchemaAssertionError(
+                    "Mandatory element not found in array",
+                    n.toString(), null));
         }
     }
 
@@ -109,7 +116,9 @@ public class CoreFunction {
         int arg2 = ((JTInteger) function.getArgument(1)).intValue();
         int length = ((JTLeafNode) json.getNode()).getText().length();
         if(arg1 > length || arg2 < length) {
-            errorStack.push(new SchemaAssertionError("Length outside of given range"));
+            errorStack.push(new SchemaAssertionError("Length outside of given range",
+                    String.format("[%s, %s]", arg1, arg2),
+                    String.valueOf(length)));
         }
     }
 
@@ -118,7 +127,9 @@ public class CoreFunction {
         int arg2 = ((JTInteger) function.getArgument(1)).intValue();
         int length = ((JTArray) json.getParent()).getChildren().size();
         if(arg1 > length || arg2 < length) {
-            errorStack.push(new SchemaAssertionError("Length outside of given range"));
+            errorStack.push(new SchemaAssertionError("Length outside of given range",
+                    String.format("[%s, %s]", arg1, arg2),
+                    String.valueOf(length)));
         }
     }
 

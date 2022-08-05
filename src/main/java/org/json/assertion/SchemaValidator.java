@@ -9,10 +9,11 @@ import org.json.assertion.tree.*;
 import org.json.assertion.tree.nodes.*;
 import org.json.assertion.utils.JsonScope;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
-@Getter
 public class SchemaValidator {
 
     SchemaContext schemaContext;
@@ -72,7 +73,9 @@ public class SchemaValidator {
     private void matchArray(JTArray sArray, JTNode jNode) {
         if(!sArray.getClass().equals(jNode.getClass())) {
             errorStack.push(new SchemaAssertionError(
-                    "Mismatch found: Data type mismatch in internal node"));
+                    "Data type mismatch in internal node",
+                    sArray.getClass().getSimpleName(),
+                    jNode.getClass().getSimpleName()));
         }
         List<JTNode> sChildren = sArray.getChildren();
         List<JTNode> jChildren = jNode.getChildren();
@@ -95,7 +98,9 @@ public class SchemaValidator {
             if(((JTValidator) sValue).isOptional() && jKeyValue == null) return;
         }
         if(jKeyValue == null) {
-            errorStack.push(new SchemaAssertionError("mandatory key-value not found"));
+            errorStack.push(new SchemaAssertionError(
+                    "Mandatory key-value not found",
+                    sKey.getText(), null));
             return;
         }
         List<JTNode> children = sKeyValue.getChildren();
@@ -114,18 +119,23 @@ public class SchemaValidator {
     private void matchLeaf(JTLeafNode sLeaf, JTLeafNode jLeaf) {
         if(!sLeaf.getClass().equals(jLeaf.getClass())) {
             errorStack.push(new SchemaAssertionError(
-                    "Mismatch found: Data type mismatch in leaf node"));
+                    "Data type mismatch in leaf node",
+                    sLeaf.getClass().getSimpleName(),
+                    jLeaf.getClass().getSimpleName()));
         }
         if(!sLeaf.getText().equals(jLeaf.getText())) {
             errorStack.push(new SchemaAssertionError(
-                    "Mismatch found: Value mismatch in leaf node"));
+                    "Value mismatch in leaf node",
+                    sLeaf.getText(), jLeaf.getText()));
         }
     }
 
     private void matchObject(JTObject sObject, JTNode jNode) {
         if(!sObject.getClass().equals(jNode.getClass())) {
             errorStack.push(new SchemaAssertionError(
-                    "Mismatch found: Data type mismatch in internal node"));
+                    "Data type mismatch in internal node",
+                    sObject.getClass().getSimpleName(),
+                    jNode.getClass().getSimpleName()));
         }
         List<JTNode> sChildren = sObject.getChildren();
         for(int i = 0; i < sChildren.size(); i++) {
@@ -142,7 +152,9 @@ public class SchemaValidator {
     private void matchInternal(JTNode sNode, JTNode jNode) {
         if(!sNode.getClass().equals(jNode.getClass())) {
             errorStack.push(new SchemaAssertionError(
-                    "Mismatch found: Data type mismatch in internal node"));
+                    "Data type mismatch in internal node",
+                    sNode.getClass().getSimpleName(),
+                    jNode.getClass().getSimpleName()));
         }
         List<JTNode> sChildren = sNode.getChildren();
         List<JTNode> jChildren = jNode.getChildren();
@@ -153,9 +165,13 @@ public class SchemaValidator {
 
     private void matchDataType(JTDataType sDataType, JsonScope jScope) {
         log.debug(String.format("Schema Node: %s, Input Node: %s", sDataType, jScope));
-        if(!ArrayUtils.contains(sDataType.getDataType().getNodeClasses(), jScope.getNode().getClass())) {
+        Class<?>[] nodeClasses = sDataType.getDataType().getNodeClasses();
+        if(!ArrayUtils.contains(nodeClasses, jScope.getNode().getClass())) {
             errorStack.push(new SchemaAssertionError(
-                    "Mismatch found: Data type mismatch in data type declaration"));
+                    "Data type mismatch for type declaration",
+                    Arrays.stream(nodeClasses).map(n -> n.getSimpleName())
+                            .collect(Collectors.joining(", ")),
+                    jScope.getNode().getClass().getSimpleName()));
         }
     }
 
