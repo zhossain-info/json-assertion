@@ -31,9 +31,8 @@ public class ImportFunction {
     public void addClass(String className) {
         try {
             Class<?> clazz = Class.forName(className);
-            Object object = clazz.getConstructor(SchemaContext.class)
-                    .newInstance(schemaContext);
-
+            Object object = clazz.getConstructor(ErrorStack.class)
+                    .newInstance(errorStack);
             for (Method m : clazz.getDeclaredMethods()) {
                 if(!Modifier.isPublic(m.getModifiers())) continue;
                 functionMap.put(m.getName(), new FunctionTuple(object, m));

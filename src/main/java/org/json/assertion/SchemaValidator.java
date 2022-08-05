@@ -1,5 +1,6 @@
 package org.json.assertion;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.assertion.error.SchemaAssertionError;
@@ -11,6 +12,7 @@ import org.json.assertion.utils.JsonScope;
 import java.util.List;
 
 @Slf4j
+@Getter
 public class SchemaValidator {
 
     SchemaContext schemaContext;
@@ -160,5 +162,10 @@ public class SchemaValidator {
     private void matchFunction(JTFunction sFunction, JsonScope jScope) {
         log.debug(String.format("Schema Node: %s, Input Node: %s", sFunction, jScope));
         importFunction.invokeFunction(sFunction, jScope);
+    }
+
+    public void reset() {
+        errorStack.clear();
+        importFunction.clear();
     }
 }

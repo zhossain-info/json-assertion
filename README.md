@@ -31,14 +31,14 @@ including version and modification date etc.
     "testObject" : {
             "testInnerBoolean" : #boolean,
             "testExactValueMatch" : 5,
-            @containsKeys("testInnerBoolean", "testExactValueMatch")
+            @objContainsKeys("testInnerBoolean", "testExactValueMatch")
     },
     "testMinmaxFunction" : @intMinmax(1, 10)#integer,
     "testOptionalWithDataType" : ?#integer,
     "testOptionalWithFunction" : ?@intMinmax(1, 10),
     "testOptionalWhenInputAvailable" : ?#string,
-    "testArray" : [1, @intMinmax(1, 50), 3, @containsAt(0, 3, 2, 1),
-                      @arrlenMinmax(2, 5)],
+    "testArray" : [1, @intMinmax(1, 50), 3, @arrContainsAt(0, 3, 2, 1),
+                      @arrElementOf(3, 0, 1, 2), @arrlenMinmax(2, 5)],
     "testRegex" : @regex("[a-z0-9]+@[a-z]+.com")#string,
     "testStringLength" : @strlenMinmax(5, 15)
 }
@@ -79,10 +79,13 @@ Validates the integer element is in integer range (inclusive)
 `@numMinmax(min, max) Scope: Current`<br>
 Validates the number element is in float or decimal precision range (inclusive)
 
-`@containsAt(index, alternatives...) Scope: Parent`  
+`@arrContainsAt(index, alternatives...) Scope: Parent`  
 Validates that one alternative is matched with the array element on index
 
-`@containsKeys(keys...) Scope: Parent`  
+`@arrElementOf(element, alternatives...) Scope: Parent`  
+Validates that the element is matched with one of alternative indexes of array
+
+`@objContainsKeys(keys...) Scope: Parent`  
 Validates all the keys are available in input object
 
 `@arrlenMinmax(min, max) Scope: Parent`  

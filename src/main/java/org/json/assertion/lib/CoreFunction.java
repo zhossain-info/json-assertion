@@ -12,12 +12,12 @@ import java.util.regex.Pattern;
 
 public class CoreFunction {
 
-    private SchemaContext schemaContext;
+    private SchemaValidator validator;
     private ErrorStack errorStack;
 
-    public CoreFunction(SchemaContext schemaContext) {
-        this.schemaContext = schemaContext;
-        this.errorStack = schemaContext.getErrorStack();
+    public CoreFunction(ErrorStack errorStack) {
+        this.validator = new SchemaValidator();
+        this.errorStack = errorStack;
     }
 
     public void numMinmax(JTFunction function, JsonScope json) {
@@ -40,21 +40,35 @@ public class CoreFunction {
         }
     }
 
-    public void containsAt(JTFunction function, JsonScope json) {
+    public void arrContainsAt(JTFunction function, JsonScope json) {
         int arg1 = ((JTInteger) function.getArgument(0)).intValue();
         List<JTNode> arguments = function.getArguments();
         List<JTNode> args = arguments.subList(1, arguments.size());
         JTNode parent = json.getParent();
         JTNode node = parent.getChild(arg1);
         for (JTNode n : args) {
-            SchemaValidator validator = new SchemaValidator();
+            validator.reset();
             validator.matchCommon(n, node);
-            if (errorStack.size() == 0) return;
+            if (validator.getErrorStack().size() == 0) return;
         }
         errorStack.push(new SchemaAssertionError("No alternative match with input in the position"));
     }
 
-    public void containsKeys(JTFunction function, JsonScope json) {
+    public void arrElementOf(JTFunction function, JsonScope json) {
+        JTNode arg1 = function.getArgument(0);
+        List<JTNode> allArgs = function.getArguments();
+        List<JTNode> args = allArgs.subList(1, allArgs.size());
+        List<JTNode> jChildren = json.getParent().getChildren();
+        for (JTNode n : args) {
+            JTNode jChild = jChildren.get(((JTInteger) n).intValue());
+            validator.reset();
+            validator.matchCommon(arg1, jChild);
+            if (validator.getErrorStack().size() == 0) return;
+        }
+        errorStack.push(new SchemaAssertionError("Element does not match with alternatives"));
+    }
+
+    public void objContainsKeys(JTFunction function, JsonScope json) {
         List<JTNode> arguments = function.getArguments();
         JTObject object = (JTObject) json.getParent();
         List<JTString> keys = object.getKeys();
