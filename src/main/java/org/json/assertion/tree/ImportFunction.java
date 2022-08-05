@@ -3,6 +3,7 @@ package org.json.assertion.tree;
 
 import lombok.AllArgsConstructor;
 import org.json.assertion.error.InvalidContextError;
+import org.json.assertion.error.FunctionNotFoundError;
 import org.json.assertion.tree.nodes.JTFunction;
 import org.json.assertion.utils.JsonScope;
 
@@ -19,10 +20,12 @@ public class ImportFunction {
     }
 
     private SchemaContext schemaContext;
+    private ErrorStack errorStack;
     private HashMap<String, FunctionTuple> functionMap = new HashMap<>();
 
     public ImportFunction(SchemaContext schemaContext) {
         this.schemaContext = schemaContext;
+        this.errorStack = schemaContext.getErrorStack();
     }
 
     public void addClass(String className) {
@@ -44,6 +47,11 @@ public class ImportFunction {
         try {
             String functionName = function.getName().substring(1);
             FunctionTuple tuple = functionMap.get(functionName);
+            if(tuple == null) {
+                errorStack.push(new FunctionNotFoundError(
+                        String.format("Function name: %s not found", functionName)));
+                return;
+            }
             tuple.method.invoke(tuple.object, function, input);
         } catch (Exception e) {
             handleException(e);

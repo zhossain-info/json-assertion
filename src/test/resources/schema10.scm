@@ -1,5 +1,5 @@
 import org.json.assertion.lib.CoreFunction
 
 {
-    "testOptionalKey" : ?@minMax(1, 10)
+    "testOptionalKey" : ?@intMinmax(1, 10)
 }

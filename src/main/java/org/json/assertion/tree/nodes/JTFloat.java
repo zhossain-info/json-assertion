@@ -15,6 +15,16 @@ public class JTFloat extends JTNumber {
     }
 
     @Override
+    public int intValue() {
+        return (int) value;
+    }
+
+    @Override
+    public long longValue() {
+        return (long) value;
+    }
+
+    @Override
     public double doubleValue() {
         return value;
     }

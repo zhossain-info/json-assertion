@@ -1,5 +1,5 @@
 import org.json.assertion.lib.CoreFunction
 
 {
-    "testFunction" : @minMax(1, 15)
+    "testFunction" : @intMinmax(1, 15)
 }

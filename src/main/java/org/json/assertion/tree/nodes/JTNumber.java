@@ -6,5 +6,7 @@ public abstract  class JTNumber extends JTLeafNode {
         super(parent);
     }
 
+    public abstract int intValue();
+    public abstract long longValue();
     public abstract double doubleValue();
 }

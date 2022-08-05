@@ -1,7 +1,7 @@
 package org.json.assertion.tree.nodes;
 
 import lombok.Getter;
-@Getter
+
 public class JTInteger extends JTNumber {
 
     private long value;
@@ -14,6 +14,16 @@ public class JTInteger extends JTNumber {
     @Override
     public String getText() {
         return String.valueOf(value);
+    }
+
+    @Override
+    public int intValue() {
+        return (int) value;
+    }
+
+    @Override
+    public long longValue() {
+        return value;
     }
 
     @Override
