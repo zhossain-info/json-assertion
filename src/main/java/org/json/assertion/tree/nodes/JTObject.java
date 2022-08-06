@@ -25,4 +25,16 @@ public class JTObject extends JTNode {
         }
         return keys;
     }
+
+    @Override
+    public String toJson() {
+        StringBuilder builder = new StringBuilder();
+        List<JTNode> keyValues = getChildren();
+        builder.append('{');
+        for(int i = 0; i < keyValues.size(); i++) {
+            if(i > 0) builder.append(',');
+            builder.append(keyValues.get(i).toJson());
+        }
+        return builder.toString();
+    }
 }

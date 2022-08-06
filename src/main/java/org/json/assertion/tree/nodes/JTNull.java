@@ -13,4 +13,9 @@ public class JTNull extends JTLeafNode {
     public String getText() {
         return String.valueOf(value);
     }
+
+    @Override
+    public String toJson() {
+        return "null";
+    }
 }

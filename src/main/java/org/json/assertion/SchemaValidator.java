@@ -1,6 +1,5 @@
 package org.json.assertion;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.json.assertion.error.SchemaAssertionError;
@@ -32,12 +31,15 @@ public class SchemaValidator {
 
     public void validate(String schema, String json) {
         try {
-            errorStack.clear();
-            importFunction.clear();
+            reset();
             JsonInputTree inputTree = new JsonInputTree(errorStack);
             JsonSchemaTree schemaTree = new JsonSchemaTree(schemaContext);
             log.debug("SCHEMA TREE AND INPUT TREE NODE TRAVERSAL:");
-            matchCommon(schemaTree.getRoot(schema), inputTree.getRoot(json));
+
+            JTRoot jsonRoot = inputTree.getRoot(json);
+            System.out.println(jsonRoot.toJson());
+
+            matchCommon(schemaTree.getRoot(schema), jsonRoot);
             handleError();
         } catch(Exception e) {
             errorStack.push(new SchemaValidatorError(e.getMessage(), e));

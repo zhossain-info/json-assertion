@@ -26,4 +26,14 @@ public class JTValidator extends JTNode {
         }
         return null;
     }
+
+    @Override
+    public String toJson() {
+        StringBuilder builder = new StringBuilder();
+        JTFunction function = getJTFunction();
+        JTDataType dataType = getJTDataType();
+        if(function != null) builder.append(function.toJson());
+        if(dataType != null) builder.append(dataType.toJson());
+        return builder.toString();
+    }
 }

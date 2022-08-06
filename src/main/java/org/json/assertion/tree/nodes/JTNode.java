@@ -27,6 +27,8 @@ public abstract class JTNode {
         return children.get(index);
     }
 
+    public abstract String toJson();
+
     @Override
     public String toString() {
         return Utilities.toString(this);

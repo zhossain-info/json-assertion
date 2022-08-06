@@ -28,4 +28,9 @@ public class JTDecimal extends JTNumber {
     public double doubleValue() {
         return value;
     }
+
+    @Override
+    public String toJson() {
+        return String.valueOf(value);
+    }
 }

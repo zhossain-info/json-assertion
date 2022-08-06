@@ -28,4 +28,9 @@ public class JTFloat extends JTNumber {
     public double doubleValue() {
         return value;
     }
+
+    @Override
+    public String toJson() {
+        return String.valueOf(value);
+    }
 }

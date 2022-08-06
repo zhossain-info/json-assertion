@@ -27,4 +27,9 @@ public class JTString extends JTLeafNode {
     public int hashCode() {
         return Objects.hash(value);
     }
+
+    @Override
+    public String toJson() {
+        return value;
+    }
 }
