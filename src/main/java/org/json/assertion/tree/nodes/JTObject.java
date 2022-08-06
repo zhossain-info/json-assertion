@@ -35,6 +35,7 @@ public class JTObject extends JTNode {
             if(i > 0) builder.append(',');
             builder.append(keyValues.get(i).toJson());
         }
+        builder.append('}');
         return builder.toString();
     }
 }

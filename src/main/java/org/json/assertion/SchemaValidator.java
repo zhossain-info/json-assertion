@@ -35,11 +35,7 @@ public class SchemaValidator {
             JsonInputTree inputTree = new JsonInputTree(errorStack);
             JsonSchemaTree schemaTree = new JsonSchemaTree(schemaContext);
             log.debug("SCHEMA TREE AND INPUT TREE NODE TRAVERSAL:");
-
-            JTRoot jsonRoot = inputTree.getRoot(json);
-            System.out.println(jsonRoot.toJson());
-
-            matchCommon(schemaTree.getRoot(schema), jsonRoot);
+            matchCommon(schemaTree.getRoot(schema), inputTree.getRoot(json));
             handleError();
         } catch(Exception e) {
             errorStack.push(new SchemaValidatorError(e.getMessage(), e));

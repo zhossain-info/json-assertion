@@ -2,7 +2,7 @@
     "testInteger" : 20,
     "testString" : "test string",
     "testFloat" : 100.56,
-    "testDecimal" : 1.3489e500,
+    "testDecimal" : 1.3489e10,
     "testAnyTypeOfNumber" : 34.8923409,
     "testIntegerMinmax" : 200,
     "testAnyNumberMinmax" : 1.9,

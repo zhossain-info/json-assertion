@@ -81,8 +81,7 @@ public class JsonSchemaTreeBuilder extends JsonSchemaParserBaseListener {
     public void enterFunction(JsonSchemaParser.FunctionContext ctx) {
         String name = ctx.FUNCTION_IDENTIFIER().getText();
         JTFunction function = new JTFunction(stack.peek(), name);
-        JTArgument argument = new JTArgument(function);
-        stack.push(argument);
+        stack.push(function);
     }
 
     @Override

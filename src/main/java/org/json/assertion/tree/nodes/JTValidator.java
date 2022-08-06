@@ -30,6 +30,7 @@ public class JTValidator extends JTNode {
     @Override
     public String toJson() {
         StringBuilder builder = new StringBuilder();
+        if(optional) builder.append('?');
         JTFunction function = getJTFunction();
         JTDataType dataType = getJTDataType();
         if(function != null) builder.append(function.toJson());

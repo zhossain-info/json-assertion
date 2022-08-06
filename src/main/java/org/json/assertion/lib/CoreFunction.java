@@ -9,6 +9,7 @@ import org.json.assertion.utils.JsonScope;
 
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class CoreFunction {
 
@@ -54,7 +55,8 @@ public class CoreFunction {
             if(matchCommon(n, node)) return;
         }
         errorStack.push(new SchemaAssertionError("No alternative match with the element of index",
-                        args.toString(), node.toString()));
+                        args.stream().map(a -> a.toJson()).collect(Collectors.joining(", ")),
+                        node.toJson()));
     }
 
     public void arrElementOf(JTFunction function, JsonScope json) {
@@ -66,8 +68,12 @@ public class CoreFunction {
             JTNode jChild = jChildren.get(((JTInteger) n).intValue());
             if(matchCommon(arg1, jChild)) return;
         }
-        errorStack.push(new SchemaAssertionError("Element does not match with any alternatives",
-                        arg1.toString(), jChildren.toString()));
+        errorStack.push(new SchemaAssertionError(
+                "Element does not match with any alternatives",
+                arg1.toJson(),
+                args.stream().map(a -> jChildren.get(((JTInteger) a).intValue()))
+                        .map(a -> a.toJson())
+                        .collect(Collectors.joining(", "))));
     }
 
     public void objContainsKeys(JTFunction function, JsonScope json) {
@@ -76,8 +82,9 @@ public class CoreFunction {
         List<JTString> keys = object.getKeys();
         for (JTNode n : arguments) {
             if(!keys.contains(n)) {
-                errorStack.push(new SchemaAssertionError("Mandatory key not found",
-                        ((JTString) n).getText(), null));
+                errorStack.push(new SchemaAssertionError(
+                        "Mandatory key not found",
+                        n.toJson(), null));
             }
         }
     }
@@ -106,8 +113,9 @@ public class CoreFunction {
         JTString regex = (JTString) function.getArgument(0);
         JTLeafNode node = (JTLeafNode) json.getNode();
         if(!Pattern.matches(regex.getText(), node.getText())) {
-            errorStack.push(new SchemaAssertionError(String.format(
-                    "Regex %s does not match with %s", regex.getText(), node.getText())));
+            errorStack.push(new SchemaAssertionError(
+                    "Text not match with regex",
+                    regex.getText(), node.getText()));
         }
     }
 
