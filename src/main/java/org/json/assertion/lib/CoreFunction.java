@@ -5,11 +5,14 @@ import org.json.assertion.error.SchemaAssertionError;
 import org.json.assertion.tree.ErrorStack;
 import org.json.assertion.tree.SchemaContext;
 import org.json.assertion.tree.nodes.*;
+import org.json.assertion.utils.AssertionBuilder;
 import org.json.assertion.utils.JsonScope;
 
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+
+import static org.json.assertion.utils.AssertionBuilder.Type.*;
+
 
 public class CoreFunction {
 
@@ -27,9 +30,12 @@ public class CoreFunction {
         double arg3 = ((JTNumber) json.getNode()).doubleValue();
 
         if (arg1 > arg3 || arg2 < arg3) {
-            errorStack.push(new SchemaAssertionError("Value outside of given range",
-                    String.format("[%d, %d]", arg1, arg2),
-                    String.valueOf(arg3)));
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
+            errorStack.push(new SchemaAssertionError(
+                    "Value outside of given range",
+                    expected.asRange(function.getArguments(0, 2)),
+                    actual.asValue(json.getNode())));
         }
     }
 
@@ -39,41 +45,47 @@ public class CoreFunction {
         double arg3 = ((JTInteger) json.getNode()).longValue();
 
         if (arg1 > arg3 || arg2 < arg3) {
-            errorStack.push(new SchemaAssertionError("Value outside of given range",
-                    String.format("[%d, %d]", arg1, arg2),
-                    String.valueOf(arg3)));
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
+            errorStack.push(new SchemaAssertionError(
+                    "Value outside of given range",
+                    expected.asRange(function.getArguments(0, 2)),
+                    actual.asValue(json.getNode())));
         }
     }
 
     public void arrContainsAt(JTFunction function, JsonScope json) {
+        AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+        AssertionBuilder actual = new AssertionBuilder(ACTUAL);
         int arg1 = ((JTInteger) function.getArgument(0)).intValue();
-        List<JTNode> arguments = function.getArguments();
-        List<JTNode> args = arguments.subList(1, arguments.size());
+        List<JTNode> args = function.getArguments(1);
         JTNode parent = json.getParent();
         JTNode node = parent.getChild(arg1);
         for (JTNode n : args) {
+            expected.add(n);
             if(matchCommon(n, node)) return;
         }
-        errorStack.push(new SchemaAssertionError("No alternative match with the element of index",
-                        args.stream().map(a -> a.toJson()).collect(Collectors.joining(", ")),
-                        node.toJson()));
+        errorStack.push(new SchemaAssertionError(
+                "No alternative match with the element of index",
+                expected.asAlternative(),
+                actual.asValue(node)));
     }
 
     public void arrElementOf(JTFunction function, JsonScope json) {
+        AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+        AssertionBuilder actual = new AssertionBuilder(ACTUAL);
         JTNode arg1 = function.getArgument(0);
-        List<JTNode> allArgs = function.getArguments();
-        List<JTNode> args = allArgs.subList(1, allArgs.size());
+        List<JTNode> args = function.getArguments(1);
         List<JTNode> jChildren = json.getParent().getChildren();
         for (JTNode n : args) {
             JTNode jChild = jChildren.get(((JTInteger) n).intValue());
+            actual.add(jChild);
             if(matchCommon(arg1, jChild)) return;
         }
         errorStack.push(new SchemaAssertionError(
                 "Element does not match with any alternatives",
-                arg1.toJson(),
-                args.stream().map(a -> jChildren.get(((JTInteger) a).intValue()))
-                        .map(a -> a.toJson())
-                        .collect(Collectors.joining(", "))));
+                expected.asValue(arg1),
+                actual.asAlternative()));
     }
 
     public void objContainsKeys(JTFunction function, JsonScope json) {
@@ -82,9 +94,12 @@ public class CoreFunction {
         List<JTString> keys = object.getKeys();
         for (JTNode n : arguments) {
             if(!keys.contains(n)) {
+                AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+                AssertionBuilder actual = new AssertionBuilder(ACTUAL);
                 errorStack.push(new SchemaAssertionError(
                         "Mandatory key not found",
-                        n.toJson(), null));
+                        expected.asValue(n),
+                        actual.asNotFound(object)));
             }
         }
     }
@@ -94,9 +109,14 @@ public class CoreFunction {
         JTArray array = (JTArray) json.getParent();
         List<JTNode> elements = array.getChildren();
         for (JTNode n : arguments) {
-            if(!contains(n, elements)) errorStack.push(new SchemaAssertionError(
-                    "Mandatory element not found in array",
-                    n.toString(), null));
+            if(!contains(n, elements)) {
+                AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+                AssertionBuilder actual = new AssertionBuilder(ACTUAL);
+                errorStack.push(new SchemaAssertionError(
+                        "Mandatory element not found in array",
+                        expected.asValue(n),
+                        actual.asNotFound(array)));
+            }
         }
     }
 
@@ -113,9 +133,12 @@ public class CoreFunction {
         JTString regex = (JTString) function.getArgument(0);
         JTLeafNode node = (JTLeafNode) json.getNode();
         if(!Pattern.matches(regex.getText(), node.getText())) {
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
             errorStack.push(new SchemaAssertionError(
                     "Text not match with regex",
-                    regex.getText(), node.getText()));
+                    expected.asValue(regex),
+                    actual.asValue(node)));
         }
     }
 
@@ -124,9 +147,11 @@ public class CoreFunction {
         int arg2 = ((JTInteger) function.getArgument(1)).intValue();
         int length = ((JTLeafNode) json.getNode()).getText().length();
         if(arg1 > length || arg2 < length) {
-            errorStack.push(new SchemaAssertionError("Length outside of given range",
-                    String.format("[%s, %s]", arg1, arg2),
-                    String.valueOf(length)));
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
+            errorStack.push(new SchemaAssertionError("String length outside of given range",
+                    expected.asRange(function.getArguments(0, 2)),
+                    actual.asObject(json.getNode(), length)));
         }
     }
 
@@ -135,9 +160,11 @@ public class CoreFunction {
         int arg2 = ((JTInteger) function.getArgument(1)).intValue();
         int length = ((JTArray) json.getParent()).getChildren().size();
         if(arg1 > length || arg2 < length) {
-            errorStack.push(new SchemaAssertionError("Length outside of given range",
-                    String.format("[%s, %s]", arg1, arg2),
-                    String.valueOf(length)));
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
+            errorStack.push(new SchemaAssertionError("Array length outside of given range",
+                    expected.asRange(function.getArguments(0, 2)),
+                    actual.asObject(json.getParent(), length)));
         }
     }
 

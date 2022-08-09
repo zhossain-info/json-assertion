@@ -1,12 +1,12 @@
 package org.json.assertion.tree.nodes;
 
 import lombok.NoArgsConstructor;
+import org.json.assertion.utils.Location;
 
-@NoArgsConstructor
 public abstract class JTLeafNode extends JTNode {
 
-    public JTLeafNode(JTNode parent) {
-        super(parent);
+    public JTLeafNode(JTNode parent, Location location) {
+        super(parent, location);
     }
 
     @Override

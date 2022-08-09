@@ -2,14 +2,15 @@ package org.json.assertion.tree.nodes;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.json.assertion.utils.Location;
 
 @Getter @Setter
 public class JTValidator extends JTNode {
 
     private boolean optional;
 
-    public JTValidator(JTNode parent) {
-        super(parent);
+    public JTValidator(JTNode parent, Location location) {
+        super(parent, location);
     }
 
     public JTDataType getJTDataType() {

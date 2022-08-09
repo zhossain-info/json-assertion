@@ -1,11 +1,13 @@
 package org.json.assertion.tree.nodes;
 
+import org.json.assertion.utils.Location;
+
 public class JTBoolean extends JTLeafNode {
 
     private boolean value;
 
-    public JTBoolean(JTNode parent, String text) {
-        super(parent);
+    public JTBoolean(JTNode parent, Location location, String text) {
+        super(parent, location);
         this.value = Boolean.valueOf(text);
     }
 

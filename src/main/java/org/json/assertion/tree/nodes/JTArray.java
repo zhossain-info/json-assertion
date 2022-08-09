@@ -1,11 +1,13 @@
 package org.json.assertion.tree.nodes;
 
+import org.json.assertion.utils.Location;
+
 import java.util.List;
 
 public class JTArray extends JTNode {
 
-    public JTArray(JTNode parent) {
-        super(parent);
+    public JTArray(JTNode parent, Location location) {
+        super(parent, location);
     }
 
     @Override

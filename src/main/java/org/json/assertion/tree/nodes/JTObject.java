@@ -1,12 +1,14 @@
 package org.json.assertion.tree.nodes;
 
+import org.json.assertion.utils.Location;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class JTObject extends JTNode {
 
-    public JTObject(JTNode parent) {
-        super(parent);
+    public JTObject(JTNode parent, Location location) {
+        super(parent, location);
     }
 
     public JTKeyValue getKeyValue(JTString key) {

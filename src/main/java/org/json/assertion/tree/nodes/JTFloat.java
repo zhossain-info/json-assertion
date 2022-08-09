@@ -1,11 +1,13 @@
 package org.json.assertion.tree.nodes;
 
+import org.json.assertion.utils.Location;
+
 public class JTFloat extends JTNumber {
 
     private double value;
 
-    public JTFloat(JTNode parent, String text) {
-        super(parent);
+    public JTFloat(JTNode parent, Location location, String text) {
+        super(parent, location);
         this.value = Double.parseDouble(text);
     }
 

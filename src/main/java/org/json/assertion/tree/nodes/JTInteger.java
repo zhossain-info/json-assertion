@@ -1,13 +1,14 @@
 package org.json.assertion.tree.nodes;
 
 import lombok.Getter;
+import org.json.assertion.utils.Location;
 
 public class JTInteger extends JTNumber {
 
     private long value;
 
-    public JTInteger(JTNode parent, String text) {
-        super(parent);
+    public JTInteger(JTNode parent, Location location, String text) {
+        super(parent, location);
         this.value = Long.parseLong(text);
     }
 

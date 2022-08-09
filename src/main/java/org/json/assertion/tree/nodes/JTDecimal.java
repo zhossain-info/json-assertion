@@ -1,11 +1,13 @@
 package org.json.assertion.tree.nodes;
 
+import org.json.assertion.utils.Location;
+
 public class JTDecimal extends JTNumber {
 
     private double value;
 
-    public JTDecimal(JTNode parent, String text) {
-        super(parent);
+    public JTDecimal(JTNode parent, Location location, String text) {
+        super(parent, location);
         this.value = Double.parseDouble(text);
     }
 

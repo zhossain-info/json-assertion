@@ -1,11 +1,13 @@
 package org.json.assertion.tree.nodes;
 
+import org.json.assertion.utils.Location;
+
 import java.util.List;
 
 public class JTKeyValue extends JTNode {
 
-    public JTKeyValue(JTNode parent) {
-        super(parent);
+    public JTKeyValue(JTNode parent, Location location) {
+        super(parent, location);
     }
 
     @Override

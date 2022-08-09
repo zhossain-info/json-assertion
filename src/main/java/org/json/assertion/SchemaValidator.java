@@ -6,11 +6,13 @@ import org.json.assertion.error.SchemaAssertionError;
 import org.json.assertion.error.SchemaValidatorError;
 import org.json.assertion.tree.*;
 import org.json.assertion.tree.nodes.*;
+import org.json.assertion.utils.AssertionBuilder;
 import org.json.assertion.utils.JsonScope;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static org.json.assertion.utils.AssertionBuilder.Type.ACTUAL;
+import static org.json.assertion.utils.AssertionBuilder.Type.EXPECTED;
 
 @Slf4j
 public class SchemaValidator {
@@ -70,10 +72,12 @@ public class SchemaValidator {
 
     private void matchArray(JTArray sArray, JTNode jNode) {
         if(!sArray.getClass().equals(jNode.getClass())) {
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
             errorStack.push(new SchemaAssertionError(
                     "Data type mismatch in internal node",
-                    sArray.getClass().getSimpleName(),
-                    jNode.getClass().getSimpleName()));
+                    expected.asClass(sArray),
+                    actual.asClass(jNode)));
         }
         List<JTNode> sChildren = sArray.getChildren();
         List<JTNode> jChildren = jNode.getChildren();
@@ -96,9 +100,12 @@ public class SchemaValidator {
             if(((JTValidator) sValue).isOptional() && jKeyValue == null) return;
         }
         if(jKeyValue == null) {
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
             errorStack.push(new SchemaAssertionError(
                     "Mandatory key-value not found",
-                    sKey.getText(), null));
+                    expected.asLeafText(sKey),
+                    actual.asNotFound(jNode)));
             return;
         }
         List<JTNode> children = sKeyValue.getChildren();
@@ -116,24 +123,31 @@ public class SchemaValidator {
 
     private void matchLeaf(JTLeafNode sLeaf, JTLeafNode jLeaf) {
         if(!sLeaf.getClass().equals(jLeaf.getClass())) {
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
             errorStack.push(new SchemaAssertionError(
                     "Data type mismatch in leaf node",
-                    sLeaf.getClass().getSimpleName(),
-                    jLeaf.getClass().getSimpleName()));
+                    expected.asClass(sLeaf),
+                    actual.asClass(jLeaf)));
         }
         if(!sLeaf.getText().equals(jLeaf.getText())) {
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
             errorStack.push(new SchemaAssertionError(
                     "Value mismatch in leaf node",
-                    sLeaf.getText(), jLeaf.getText()));
+                    expected.asLeafText(sLeaf),
+                    actual.asLeafText(jLeaf)));
         }
     }
 
     private void matchObject(JTObject sObject, JTNode jNode) {
         if(!sObject.getClass().equals(jNode.getClass())) {
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
             errorStack.push(new SchemaAssertionError(
                     "Data type mismatch in internal node",
-                    sObject.getClass().getSimpleName(),
-                    jNode.getClass().getSimpleName()));
+                    expected.asClass(sObject),
+                    actual.asClass(jNode)));
         }
         List<JTNode> sChildren = sObject.getChildren();
         for(int i = 0; i < sChildren.size(); i++) {
@@ -149,10 +163,12 @@ public class SchemaValidator {
     }
     private void matchInternal(JTNode sNode, JTNode jNode) {
         if(!sNode.getClass().equals(jNode.getClass())) {
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
             errorStack.push(new SchemaAssertionError(
                     "Data type mismatch in internal node",
-                    sNode.getClass().getSimpleName(),
-                    jNode.getClass().getSimpleName()));
+                    expected.asClass(sNode),
+                    actual.asClass(jNode)));
         }
         List<JTNode> sChildren = sNode.getChildren();
         List<JTNode> jChildren = jNode.getChildren();
@@ -165,11 +181,12 @@ public class SchemaValidator {
         log.debug(String.format("Schema Node: %s, Input Node: %s", sDataType, jScope));
         Class<?>[] nodeClasses = sDataType.getDataType().getNodeClasses();
         if(!ArrayUtils.contains(nodeClasses, jScope.getNode().getClass())) {
+            AssertionBuilder expected = new AssertionBuilder(EXPECTED);
+            AssertionBuilder actual = new AssertionBuilder(ACTUAL);
             errorStack.push(new SchemaAssertionError(
                     "Data type mismatch for type declaration",
-                    Arrays.stream(nodeClasses).map(n -> n.getSimpleName())
-                            .collect(Collectors.joining(", ")),
-                    jScope.getNode().getClass().getSimpleName()));
+                    expected.asClasses(sDataType, nodeClasses),
+                    actual.asClass(jScope.getNode())));
         }
     }
 

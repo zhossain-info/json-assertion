@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.json.assertion.antlr.JsonSchemaParserBaseListener;
 import org.json.assertion.antlr.JsonSchemaParser;
 import org.json.assertion.tree.nodes.*;
+import org.json.assertion.utils.Location;
 
 import java.util.Stack;
 
@@ -25,7 +26,7 @@ public class JsonSchemaTreeBuilder extends JsonSchemaParserBaseListener {
 
     @Override
     public void enterJson(JsonSchemaParser.JsonContext ctx) {
-        stack.push(new JTRoot());
+        stack.push(new JTRoot(Location.from(ctx)));
     }
 
     @Override
@@ -35,7 +36,7 @@ public class JsonSchemaTreeBuilder extends JsonSchemaParserBaseListener {
 
     @Override
     public void enterObject(JsonSchemaParser.ObjectContext ctx) {
-        stack.push(new JTObject(stack.peek()));
+        stack.push(new JTObject(stack.peek(), Location.from(ctx)));
     }
 
     @Override
@@ -45,8 +46,8 @@ public class JsonSchemaTreeBuilder extends JsonSchemaParserBaseListener {
 
     @Override
     public void enterKeyValue(JsonSchemaParser.KeyValueContext ctx) {
-        JTKeyValue keyValue = new JTKeyValue(stack.peek());
-        new JTString(keyValue, ctx.STRING().getText());
+        JTKeyValue keyValue = new JTKeyValue(stack.peek(), Location.from(ctx));
+        new JTString(keyValue, Location.from(ctx), ctx.STRING().getText());
         stack.push(keyValue);
     }
 
@@ -57,7 +58,7 @@ public class JsonSchemaTreeBuilder extends JsonSchemaParserBaseListener {
 
     @Override
     public void enterArray(JsonSchemaParser.ArrayContext ctx) {
-        stack.push(new JTArray(stack.peek()));
+        stack.push(new JTArray(stack.peek(), Location.from(ctx)));
     }
 
     @Override
@@ -67,7 +68,7 @@ public class JsonSchemaTreeBuilder extends JsonSchemaParserBaseListener {
 
     @Override
     public void enterValidator(JsonSchemaParser.ValidatorContext ctx) {
-        JTValidator validator = new JTValidator(stack.peek());
+        JTValidator validator = new JTValidator(stack.peek(), Location.from(ctx));
         if(ctx.OPTIONAL() != null) validator.setOptional(true);
         stack.push(validator);
     }
@@ -80,7 +81,7 @@ public class JsonSchemaTreeBuilder extends JsonSchemaParserBaseListener {
     @Override
     public void enterFunction(JsonSchemaParser.FunctionContext ctx) {
         String name = ctx.FUNCTION_IDENTIFIER().getText();
-        JTFunction function = new JTFunction(stack.peek(), name);
+        JTFunction function = new JTFunction(stack.peek(), Location.from(ctx), name);
         stack.push(function);
     }
 
@@ -91,31 +92,31 @@ public class JsonSchemaTreeBuilder extends JsonSchemaParserBaseListener {
 
     @Override
     public void enterDataType(JsonSchemaParser.DataTypeContext ctx) {
-        new JTDataType(stack.peek(), ctx.DATATYPE().getText());
+        new JTDataType(stack.peek(), Location.from(ctx), ctx.DATATYPE().getText());
     }
 
     @Override
     public void enterBoolean(JsonSchemaParser.BooleanContext ctx) {
-        new JTBoolean(stack.peek(), ctx.BOOLEAN().getText());
+        new JTBoolean(stack.peek(), Location.from(ctx), ctx.BOOLEAN().getText());
     }
 
     @Override
     public void enterString(JsonSchemaParser.StringContext ctx) {
-        new JTString(stack.peek(), ctx.STRING().getText());
+        new JTString(stack.peek(), Location.from(ctx), ctx.STRING().getText());
     }
 
     @Override
     public void enterInteger(JsonSchemaParser.IntegerContext ctx) {
-        new JTInteger(stack.peek(), ctx.INTEGER().getText());
+        new JTInteger(stack.peek(), Location.from(ctx), ctx.INTEGER().getText());
     }
 
     @Override
     public void enterFloat(JsonSchemaParser.FloatContext ctx) {
-        new JTFloat(stack.peek(), ctx.FLOAT().getText());
+        new JTFloat(stack.peek(), Location.from(ctx), ctx.FLOAT().getText());
     }
 
     @Override
     public void enterDecimal(JsonSchemaParser.DecimalContext ctx) {
-        new JTDecimal(stack.peek(), ctx.DECIMAL().getText());
+        new JTDecimal(stack.peek(), Location.from(ctx), ctx.DECIMAL().getText());
     }
 }

@@ -1,12 +1,14 @@
 package org.json.assertion.tree.nodes;
 
+import org.json.assertion.utils.Location;
+
 import java.util.Objects;
 
 public class JTString extends JTLeafNode {
 
     private String value;
-    public JTString(JTNode parent, String text) {
-        super(parent);
+    public JTString(JTNode parent, Location location, String text) {
+        super(parent, location);
         this.value = text;
     }
 
