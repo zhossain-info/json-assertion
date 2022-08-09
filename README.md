@@ -98,6 +98,19 @@ Validates the json array size is in range (inclusive)
 `@strlenMinmax(min, max) Scope: Current`  
 Validates the string size is in range (inclusive)
 
+### Error Message
+Error message provide details information about line and column number including stack trace. Following is a sample error message.
+
+```
+Exception in thread "main" org.json.assertion.error.SchemaAssertionError: Text does not match with regex
+Expected (Schema Line 28:25): "[a-z0-9]+@[a-z]+.com"
+Actual (Json Line 16:18): "example1971.email.com"
+
+	at org.json.assertion.lib.CoreFunction.regex(CoreFunction.java:141)
+	...
+```
+
+
 ### See Also
 https://github.com/karatelabs/karate  
 https://json-schema.org/  
